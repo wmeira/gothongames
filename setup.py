@@ -8,7 +8,7 @@ config = {
     'author': 'William Hitoshi Tsunoda Meira',
     'url': '',
     'version': '0.1',
-    'install_requires': ['nose'],
+    'install_requires': ['pytest', 'flask'],
     'packages': ['gothonweb'],
     'scripts': [],
     'name': 'gothonweb'
