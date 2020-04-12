@@ -1,0 +1,32 @@
+.login-container {
+    width: 100%;
+    max-width: 500px;
+    align-items: top;
+    height: 100vh;
+    margin: 0 auto;
+    justify-content: space-between;   
+}
+
+.form-container p {
+    margin-top: 20px
+}
+
+.form-container {
+    margin-top: 20px
+}
+
+.form-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-container form label {
+    margin-top: 10px;
+    margin-bottom: 3px;
+}
+
+.form-container form button {
+    margin-top: 10px;
+    height: 25px;
+    padding: 3px;
+}

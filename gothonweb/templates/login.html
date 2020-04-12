@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="login-container">
+    <h2>Welcome, adventurer!</h2>
+    <p>Login to start playing! If you don't have an account, <a href="/signup.html">sign up here</a></p>
+
+    <div class="form-container">
+        <form action=/login method="POST">
+            <label for="fuser">Username: </label>
+            <input type="text" id="fuser" name="user" />
+            <label for="fpassword">Password: </label>
+            <input type="password" id="fpassword" name="password" />
+            <button className="button" type="submit">Login</button>    
+        </form>
+    </div>
+</div>
+
+{% endblock %}

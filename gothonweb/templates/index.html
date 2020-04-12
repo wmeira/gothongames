@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/play.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="play-container"> 
+    <h2>Welcome, {{ player }}!</h2>
+    
+    <p>Which mission are you ready to play?</p>
+
+    <div class="missions">
+        <button class="gothon" src="/gothon">Gothon</button>
+        <button class="mosquito" src="/mosquito">Mosquito</button>
+    </div>
+
+    <!-- <hr>
+    <div class="highest-scores">
+        <p>Highest scores: </p>
+    </div> -->
+</div>
+
+{% endblock %}

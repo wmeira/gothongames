@@ -1,0 +1,13 @@
+.play-container {
+    width: 100%;
+    max-width: 500px;
+    align-items: top;
+    height: 100vh;
+    margin: 0 auto;
+    justify-content: space-between;   
+}
+
+.play-container p {
+    margin-top: 20px
+}
+

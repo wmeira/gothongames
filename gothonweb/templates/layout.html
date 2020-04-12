@@ -1,8 +1,18 @@
 <html>
     <head>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='/img/favicon2.ico') }}" type="image/x-icon"/>
+        <link rel="icon" href="{{ url_for('static', filename='/img/favicon.ico') }}" type="image/x-icon"/>
+        <link rel="stylesheet" href="{{ url_for('static', filename='/css/global.css') }}">
+        {% block css %} {% endblock %}
+
         <title>Gothons From Planet Percal #25</title>
     </head>
     <body>
+        <div class="header">
+            <h1>Gothons From Planet Percal #25</h1>
+            <img alt="Starship" src="{{ url_for('static', filename='/img/gothon_ship.png')}}"" height="100" width="100" />
+        </div>
+
         {% block content %}{% endblock %}
     </body>
 </html>
