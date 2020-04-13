@@ -8,3 +8,6 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(40), unique=True)
     password = db.Column(db.String(200), nullable=False)
     score = db.Column(db.Integer, default=0)
+
+    def __repr__(self):
+        return f"User('{self.username}', '{self.password}', {self.score})"

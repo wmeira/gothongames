@@ -6,13 +6,13 @@
 
 {% block content %}
 <div class="play-container"> 
-    <h2>Welcome, {{ player }}!</h2>
+    <h2>Welcome, {{ current_user.username }}!</h2>
     
     <p>Which mission are you ready to play?</p>
 
     <div class="missions">
-        <button class="gothon" src="/gothon">Gothon</button>
-        <button class="mosquito" src="/mosquito">Mosquito</button>
+        <button class="gothon" src="{{ url_for('game_gothon') }}">Gothon</button>
+        <button class="mosquito" src="{{ url_for('game_mosquito') }}">Mosquito</button>
     </div>
 
     <!-- <hr>

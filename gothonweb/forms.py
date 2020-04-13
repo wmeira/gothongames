@@ -22,8 +22,8 @@ class SignupForm(FlaskForm):
         if user:
             raise ValidationError('That username is taken. Please choose a different one.')
 
-
-
-    
+class GameForm(FlaskForm):
+    action = StringField('Action')
+     
 
 

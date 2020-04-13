@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1>{{ room.name }}</h1>
+<h1>Gothon Mission: {{ room.name }}</h1>
 <pre>
     {{room.description}}
 </pre>
@@ -11,8 +11,9 @@
     <p><a href="/">Play Again?</a></p>
 {% else %}
     <p>
-        <form action="/game/{{ game }}" method="POST">
-            <input type="text" name="action"><input type="submit">
+        <form action="/game/gothon" method="POST">
+            <input type="text" name="action">
+            <input type="submit">
         </form>
     </p>
 {% endif %}
