@@ -25,8 +25,14 @@
     margin-bottom: 3px;
 }
 
-.form-container form button {
+.form-container form input {
+    padding: 5px;
+    font-size: 10px;
+}
+
+.form-container form .button {
     margin-top: 10px;
     height: 25px;
     padding: 3px;
+    cursor: pointer;
 }

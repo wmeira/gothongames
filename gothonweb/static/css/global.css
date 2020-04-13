@@ -32,3 +32,29 @@ button {
     justify-content: space-between;   
 }
 
+body .alert-success {
+    width: 100%;
+    max-width: 500px;
+    align-items: center;
+    margin: 0 auto;
+    margin: 5px 5px 5px 5px;
+    background-color: lightgreen;
+}
+
+.alert-error {
+    background-color: lightpink;
+}
+
+.is-invalid {
+    border-color: red;
+}
+
+.errors-container {
+    margin-top: 3px;
+}
+
+.error-feedback {
+    margin-top: 3px;
+    font-size: 8px;
+    color: red; 
+}

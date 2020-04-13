@@ -13,11 +13,45 @@
 
     <div class="form-container">
         <form action=/signup method="POST">
-            <label for="fuser">Username: </label>
-            <input type="text" id="fuser" name="user" />
-            <label for="fpassword">Password: </label>
-            <input type="password" id="fpassword" name="password" />
-            <button className="button" type="submit">Login</button>    
+            {{ form.csrf_token }}
+
+            {{ form.username.label }}
+            {% if form.username.errors %}
+                {{ form.username(class="is-invalid") }}
+                <div class="errors-container">
+                    {% for error in form.username.errors %}
+                        <span class="error-feedback">- {{ error }}</span><br>
+                    {% endfor%}
+                </div>
+            {% else %}
+                {{ form.username()}}    
+            {% endif %}
+
+            {{ form.password.label }}
+            {% if form.password.errors %}
+                {{ form.password(class="is-invalid") }}
+                <div class="errors-container">
+                    {% for error in form.password.errors %}
+                        <span class="error-feedback">- {{ error }}</span><br>
+                    {% endfor%}
+                </div>
+            {% else %}
+                {{ form.password()}}    
+            {% endif %}
+        
+            {{ form.confirm.label }}
+            {% if form.confirm.errors %}
+            {{ form.confirm(class="is-invalid") }}
+                <div class="errors-container">
+                    {% for error in form.confirm.errors %}
+                        <span class="error-feedback">- {{ error }}</span><br>
+                    {% endfor%}
+                </div>
+            {% else %}
+                {{ form.confirm()}}    
+            {% endif %}
+
+            {{ form.submit(class="button") }}
         </form>
     </div>
 </div>

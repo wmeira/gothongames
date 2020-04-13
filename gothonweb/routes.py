@@ -1,48 +1,57 @@
-from flask import session, redirect, url_for, escape, request
-from flask import render_template
-from flask_login import login_required, login_user, logout_user
-from gothonweb import planisphere, app, db, login_manager
+from flask import session, redirect, url_for, escape, request, flash, render_template
+from flask_login import login_required, login_user, logout_user, current_user
+from gothonweb import planisphere, app, db, login_manager, bcrypt
 from gothonweb.models import User
-
+from gothonweb.forms import LoginForm, SignupForm
 
 @login_manager.user_loader
-def get_user(user):
-    return User.query.get(user)
+def get_user(user_id):
+    return User.query.get(user_id)
 
 
-@app.route('/', methods=['GET'])
-@login_required()
+@app.route('/')
+@app.route('/home')
+@login_required
 def index():
+    if current_user.is_authenticated == False:
+        return redirect(url_for('login'))
+
     session['room_name'] = planisphere.START
     return render_template("index.html")
 
-@app.route('/login', methods=['GET'])
-def get_login():
-    return render_template("login.html")
-
-@app.route('/login', methods=['POST'])
-def post_login():
-    user = request.form(['user'])
-    password = request.form(['password'])
-    user = User.query.filter_by(user=user).first()
-    login_user(user)
-    return redirect('/')
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        username = form.username.data
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User.query.filter_by(username=username).first()
+        if user.password == hashed_password: 
+            login_user(user)
+            return redirect(url_for('home'))
+    return render_template("login.html", form=form)
 
 @app.route('/logout', methods=['GET'])
 def logout():
     logout_user()
-    return redirect('/login')
+    return redirect(url_for('login'))
 
-@app.route('/signup', methods=['POST'])
-def post_signup():
-    user = request.form['username']
-    password = request.form['password']
-    user = User(user=user, password=password)
-    db.session.add(user)
-    db.session.commit()
-    user = User.query.filter_by(user).first()
-    login_user(user)
-    return redirect('/')
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    form = SignupForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        username = form.username.data
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        user = User(username=username, password=hashed_password)
+        db.session.add(user)
+        db.session.commit()
+        flash(f'Player name {username} registered with success! Login to play!', 'success')
+        return redirect(url_for('login'))
+    else:
+        #TODO error messages
+        print(form.validate)
+    return render_template("signup.html", form=form)
+
 
 @app.route("/game/gothon", methods=['GET', 'POST'])
 @login_required
