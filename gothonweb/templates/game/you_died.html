@@ -1,5 +1,9 @@
 {% extends "layout.html" %}
 
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='/css/game.css') }}">
+{% endblock %}
+
 {% block content %}
 <h1>You died!</h1>
 

@@ -33,6 +33,7 @@ def login():
     return render_template("login.html", form=form)
 
 @app.route('/logout', methods=['GET'])
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('login'))
@@ -46,11 +47,8 @@ def signup():
         user = User(username=username, password=hashed_password)
         db.session.add(user)
         db.session.commit()
-        flash(f'Player name {username} registered with success! Login to play!', 'success')
+        flash(f'Player name \'{username}\' registered with success! Login to play!', 'success')
         return redirect(url_for('login'))
-    else:
-        #TODO error messages
-        print(form.validate)
     return render_template("signup.html", form=form)
 
 
@@ -84,3 +82,8 @@ def game_gothon():
 def game_mosquito():
     #TODO game as a route parameter
     return render_template("/game/mosquito.html")
+
+
+@app.route("/ranking", methods=['GET'])
+def ranking():
+    return render_template("ranking.html")

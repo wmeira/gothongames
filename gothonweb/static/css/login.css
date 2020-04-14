@@ -35,4 +35,6 @@
     height: 25px;
     padding: 3px;
     cursor: pointer;
+    background-color: lemonchiffon;
+    /* border-radius: 2px; */
 }

@@ -14,8 +14,10 @@ db = SQLAlchemy(app)
 #package to encrypt password
 bcrypt = Bcrypt(app)
 
-login_manager = LoginManager()
-login_manager.init_app(app)
+login_manager = LoginManager(app)
+login_manager.login_view = "login"
+login_manager.login_message_category = 'error'
+login_manager.login_message = 'Please log in to play the game'
 
 #protect site against CSRF (cross-site request forgery)
 csrf = CSRFProtect(app)
@@ -25,7 +27,7 @@ from gothonweb import planisphere, routes, models
 
 # if DB is unavailable
 import os.path
-if os.path.exists('/db/gothon.db') is False:
+if not os.path.exists('/db/gothon.db'):
     db.create_all()
     print('SQLite Database created')
 

@@ -22,27 +22,37 @@ button {
     cursor: pointer;
 }
 
-.header {
+.content {
     width: 100%;
     max-width: 500px;
-    display: flex;
-    align-items: center;
-    height: 200px;
-    margin: 0 auto;
-    justify-content: space-between;   
+    margin: auto;
 }
 
-body .alert-success {
-    width: 100%;
-    max-width: 500px;
-    align-items: center;
+.nav-bar {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    justify-content: space-between;
+}
+
+.header {
+    display: flex;
+    height: 200px;
     margin: 0 auto;
-    margin: 5px 5px 5px 5px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.alert-success {
+    padding: 3px;
     background-color: lightgreen;
 }
 
 .alert-error {
+    padding: 3px;
     background-color: lightpink;
+
 }
 
 .is-invalid {
