@@ -12,20 +12,19 @@ Simple storytelling webgame with the purpose of learning Python and Flask framew
 - Password encryption using `flash-bcrypt`
 - ORM using `flask-sqlalchemy` with `SQLite`
 
+## Pages
 
+- Game (index)
+- Login
+- Ranking
     
 ## TODO
   
   - Sistema de ajuda
   - Melhorar aparência HTML  
   - Sistema de pontuação
-  - Apresentar as maiores pontuações
   - Escolha de mapas para jogar
   - Aumentar a complexidade do mapa
   - Aumentar a cobertura dos testes automatizados
-
-
-
-
 
 
