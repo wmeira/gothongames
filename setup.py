@@ -8,7 +8,14 @@ config = {
     'author': 'William Hitoshi Tsunoda Meira',
     'url': '',
     'version': '0.1',
-    'install_requires': ['flask', 'flask-login', 'flask-sqlalchemy', 'flask-wtf', 'flash-bcrypt'],
+    'install_requires': [
+        'flask', 
+        'flask-login', 
+        'flask-sqlalchemy', 
+        'flask-wtf', 
+        'flash-bcrypt',
+        'flask-moment'
+    ],
     'tests_require': ['pytest'],
     'packages': ['gothonweb'],
     'scripts': [],
