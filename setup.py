@@ -14,9 +14,13 @@ config = {
         'flask-sqlalchemy', 
         'flask-wtf', 
         'flash-bcrypt',
-        'flask-moment'
+        'flask-moment',
+        'flask-migrate',
+        'flask-scripts'
     ],
-    'tests_require': ['pytest'],
+    'tests_require': [
+        'pytest'
+    ],
     'packages': ['gothonweb'],
     'scripts': [],
     'name': 'gothonweb'

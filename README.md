@@ -11,6 +11,8 @@ Simple storytelling webgame with the purpose of learning Python and Flask framew
 - Forms and validators using `flask-wtf`
 - Password encryption using `flash-bcrypt`
 - ORM using `flask-sqlalchemy` with `SQLite`
+- Database migration using `flask-migrate`. The migration commands may be accesses through the `manage.py` (`flask-scripts` functionality)
+- 
 
 ## Pages
 
