@@ -130,4 +130,4 @@ dmypy.json
 
 
 # config script
-dev_config.bat
+*_config.bat

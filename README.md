@@ -15,7 +15,7 @@ Simple storytelling webgame with the purpose of learning Python and Flask framew
 - E-mail system using `flask-mail` (sends an e-mail when user is registered)
 - Locale of timestamps (UTC to client time) is managed using `flask-moment`
 - Configuration environments (`development`, `testing`, and `production`) and Blueprints (`main`) are being used.
-
+- Unitary tests using Pytest
 
 ## Pages
 
