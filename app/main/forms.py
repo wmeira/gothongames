@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired, InputRequired, EqualTo, Length, ValidationError
-from gothonweb.models import User
+from wtforms.validators import DataRequired, InputRequired, EqualTo, Length, Email, ValidationError
+from ..models import User
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -11,6 +11,7 @@ class LoginForm(FlaskForm):
 
 class SignupForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=1, max=40)])
+    email = StringField('E-mail', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[InputRequired(), 
                                                      Length(min=8, max=200, message='A password should have at least 8 characters'), 
                                                      EqualTo('confirm', message='Passwords must match')])
@@ -20,10 +21,16 @@ class SignupForm(FlaskForm):
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
         if user:
-            raise ValidationError('That username is taken. Please choose a different one.')
+            raise ValidationError('This username is taken. Please choose a different one.')
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user:
+            raise ValidationError('This email is already registered. Please choose a different one.')
 
 class GameForm(FlaskForm):
     action = StringField('Action')
+    submit = SubmitField('Submit')
      
 
 

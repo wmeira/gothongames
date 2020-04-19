@@ -1,0 +1,5 @@
+Thank you for registering dear {{ user.username }}!
+
+GothonWeb is waiting you to play!
+
+Get the highest score!

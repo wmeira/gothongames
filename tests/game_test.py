@@ -1,4 +1,4 @@
-from gothonweb.planisphere import *
+from app.games import *
 
 def test_room():
     gold = Room("GoldRoom", 
@@ -30,9 +30,11 @@ def test_map():
     assert start.go('down').go('up') == start
 
 def test_gothon_game_map():
-    start_room = load_room(START)
-    assert start_room.go('shoot!') == generic_death
-    assert start_room.go('dodge!') == generic_death
+    game = available_games['gothon']
+    start_room = game.load_room(game)
+    
+    assert start_room.go('shoot!') == game._generic_death
+    assert start_room.go('dodge!') == game._generic_death
 
     room = start_room.go('tell a joke')
-    assert room == laser_weapon_armory
+    assert room == game._laser_weapon_armory

@@ -20,13 +20,13 @@
             {% endwith %}
 
             <div class="nav-bar">
-                <a href="{{ url_for('home') }}">Game</a>
-                <a href="{{ url_for('ranking') }}">Ranking</a>
+                <a href="{{ url_for('main.home') }}">Game</a>
+                <a href="{{ url_for('main.ranking') }}">Ranking</a>
                 
                 {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('logout') }}">Logout</a>
+                    <a href="{{ url_for('main.logout') }}">Logout</a>
                 {% else %}
-                    <a href="{{ url_for('login') }}">Login</a>
+                    <a href="{{ url_for('main.login') }}">Login</a>
                 {% endif %}
             </div>
 
@@ -42,8 +42,6 @@
             </div>
         </div>
         
-        {% block scripts %}
-            {{ moment.include_moment() }}
-        {% endblock %}
+        {% block scripts %}{% endblock %}
     </body>
 </html>

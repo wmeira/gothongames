@@ -8,7 +8,7 @@
         <div class="game-container" style="width: 100%;"></div>
             <h2>{{ game }}</h2>
             {% if current_user.is_authenticated %}
-                <p style="font-weight:bold">{{ current_user.username|capitalize }} best score {% if user_ranking[game].score %}{{ user_ranking[game].score }}{% else %}0{% endif%}</p>
+                <p style="font-weight:bold">{{ current_user.username|capitalize }} best score {% if user_ranking[game] %}{{ user_ranking[game].score }}{% else %}0{% endif%}</p>
             {% endif %}
             <table>
                 <tr>
@@ -17,9 +17,10 @@
                     <th>Score</th>
                 </tr>
                 {% for r in rank %}
-                    <tr {% if r.user_id == current_user.name %}style="font-weight:bold"{% endif%}>
+                    <tr {% if current_user.is_authenticated and r.user_id == current_user.username  %}style="font-weight:bold"{% endif%}>
                         <td>{{ loop.index }}</td>
                         <td>{{ r.user.username }}</td>
+                        <td>{{ moment(r.ts).format('L') }} {{ moment(r.ts).format('LTS') }}</td>
                         <td>{{ r.score }}</td>
                     </tr>
                 {% endfor %}
@@ -29,4 +30,9 @@
     {% endfor %}
 </div>
 
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ moment.include_moment() }}
 {% endblock %}

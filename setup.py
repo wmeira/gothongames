@@ -16,14 +16,16 @@ config = {
         'flash-bcrypt',
         'flask-moment',
         'flask-migrate',
-        'flask-scripts'
+        'flask-scripts',
+        'flask-mail'
     ],
     'tests_require': [
         'pytest'
     ],
-    'packages': ['gothonweb'],
+    'packages': ['app'],
     'scripts': [],
     'name': 'gothonweb'
 }
+
 
 setup(**config)

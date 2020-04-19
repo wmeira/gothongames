@@ -12,7 +12,7 @@ Simple storytelling webgame with the purpose of learning Python and Flask framew
 - Password encryption using `flash-bcrypt`
 - ORM using `flask-sqlalchemy` with `SQLite`
 - Database migration using `flask-migrate`. The migration commands may be accesses through the `manage.py` (`flask-scripts` functionality)
-- 
+- E-mail system using `flask-mail` (sends an e-mail when user is registered)
 
 ## Pages
 
@@ -22,11 +22,10 @@ Simple storytelling webgame with the purpose of learning Python and Flask framew
     
 ## TODO
   
+  - Quem está logado (nav-bar)
   - Sistema de ajuda
   - Melhorar aparência HTML  
   - Sistema de pontuação
   - Escolha de mapas para jogar
   - Aumentar a complexidade do mapa
   - Aumentar a cobertura dos testes automatizados
-
-

@@ -27,6 +27,18 @@
                 {{ form.username()}}    
             {% endif %}
 
+            {{ form.email.label }}
+            {% if form.email.errors %}
+                {{ form.email(class="is-invalid") }}
+                <div class="errors-container">
+                    {% for error in form.email.errors %}
+                        <span class="error-feedback">- {{ error }}</span><br>
+                    {% endfor%}
+                </div>
+            {% else %}
+                {{ form.email()}}    
+            {% endif %}
+
             {{ form.password.label }}
             {% if form.password.errors %}
                 {{ form.password(class="is-invalid") }}
@@ -36,7 +48,7 @@
                     {% endfor%}
                 </div>
             {% else %}
-                {{ form.password()}}    
+                {{ form.password() }}    
             {% endif %}
         
             {{ form.confirm.label }}

@@ -1,14 +1,18 @@
-from gothonweb import db
+from . import db, login_manager
 from flask_login import UserMixin
 from datetime import datetime
 
-# UserMixin provides default implementations for the methods that Flask-Login expects user objects to have.
+@login_manager.user_loader
+def get_user(user_id):
+    return User.query.get(user_id)
 
+# UserMixin provides default implementations for the methods that Flask-Login expects user objects to have.
 class User(UserMixin, db.Model):
     __tablename__ = 'user'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(40), unique=True)
+    email = db.Column(db.String(200), unique=True)
     password = db.Column(db.String(200), nullable=False)
     
     def __repr__(self):

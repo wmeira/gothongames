@@ -1,4 +1,4 @@
-from gothonweb.app import app
+from gothonweb import app
 
 app.config['TESTING'] = True
 web = app.test_client()
