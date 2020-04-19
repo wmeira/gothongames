@@ -101,7 +101,7 @@ def game_mosquito():
 def ranking():
     global_ranking = {}
     user_ranking = {}
-    for game in available_games: 
+    for game in available_games.keys(): 
         best_five_scores = Ranking.get_best_scores(game, 5)
         
         if current_user.is_authenticated:

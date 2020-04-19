@@ -8,10 +8,10 @@ class Game(object):
         self._rooms = rooms
 
     def load_room(self, name):
-        return _rooms[name]
+        return self._rooms[name]
 
     def name_room(self, room):
-        for (key, value) in _rooms.items():
+        for (key, value) in self._rooms.items():
             if value == room:
                 return key
         return None
@@ -41,7 +41,7 @@ class Room(object):
 
 class Gothon(Game):
 
-    _central_corridor = Room("Central Corridor", 
+    central_corridor = Room("Central Corridor", 
     """
     The Gothons of Planet Percal #25 have invaded your ship and destroyed
     your entire crew. You are the last surviving member and your last 
@@ -54,7 +54,7 @@ class Gothon(Game):
     the Armory and about to pull a weapon to blast you.
     """)
 
-    _laser_weapon_armory = Room("Laser Weapon Armory", 
+    laser_weapon_armory = Room("Laser Weapon Armory", 
     """
     Lucky for you they made you learn Gothon insults in the academy. You
     tell the one Gothon joke you know: Lbhe zbgure vf fb sng, jura fur fvgf
@@ -72,7 +72,7 @@ class Gothon(Game):
     """
     )
 
-    _the_bridge = Room("The Bridge",
+    the_bridge = Room("The Bridge",
     """
     The container clicks open and the seal breaks, letting gas out. You 
     grab the neutron bomb and run as fast as you can to the bridge where 
@@ -85,7 +85,7 @@ class Gothon(Game):
     and don't want to set it off.
     """)
 
-    _escape_pod = Room("Escape Pod",
+    escape_pod = Room("Escape Pod",
     """
     You point your blaster at the bomb under your arm and the Gothons put
     their hands up and start to sweat. You inch backward to the door, open
@@ -102,7 +102,7 @@ class Gothon(Game):
     which one do you take?
     """)
 
-    _the_end_winner = Room("The End",
+    the_end_winner = Room("The End",
     """
     You jump into pod 2 and hit the eject button. The pod easily slides out
     into space heading to the planet below. As it flies to the planet, you
@@ -110,34 +110,34 @@ class Gothon(Game):
     taking out the Gothon ship at the same time. You won!
     """)
 
-    _the_end_loser = Room("The End",
+    the_end_loser = Room("The End",
     """
     You jump into a random pod and hit the eject button. The pod escapes 
     out into the void of space, then implodes as the hull ruptures, crushing
     your body into jam jelly.
     """)
 
-    _generic_death = Room("death", "You died.")
+    generic_death = Room("death", "You died.")
 
-    _escape_pod.add_paths({
-        '2': _the_end_winner,
-        '*': _the_end_loser
+    escape_pod.add_paths({
+        '2': the_end_winner,
+        '*': the_end_loser
     })
 
-    _the_bridge.add_paths({
-        'throw the bomb': _generic_death,
-        'slowly place the bomb': _escape_pod
+    the_bridge.add_paths({
+        'throw the bomb': generic_death,
+        'slowly place the bomb': escape_pod
     })
 
-    _laser_weapon_armory.add_paths({
-        '0132': _the_bridge,
-        '*': _generic_death
+    laser_weapon_armory.add_paths({
+        '0132': the_bridge,
+        '*': generic_death
     })
 
-    _central_corridor.add_paths({
-        'shoot!': _generic_death,
-        'dodge!': _generic_death,
-        'tell a joke': _laser_weapon_armory
+    central_corridor.add_paths({
+        'shoot!': generic_death,
+        'dodge!': generic_death,
+        'tell a joke': laser_weapon_armory
     })
 
     def __init__(self):
@@ -145,15 +145,19 @@ class Gothon(Game):
             'gothon', 
             'Escape from planet Gothon!', 
             {
-                'central_corridor': _central_corridor,
-                'laser_weapon_armory': _laser_weapon_armory,
-                'the_bridge': _the_bridge,
-                'escape_pod': _escape_pod,
-                'the_end_winner': _the_end_winner,
-                'the_end_loser': _the_end_loser,
-                'generic_death': _generic_death
+                'central_corridor': self.central_corridor,
+                'laser_weapon_armory': self.laser_weapon_armory,
+                'the_bridge': self.the_bridge,
+                'escape_pod': self.escape_pod,
+                'the_end_winner': self.the_end_winner,
+                'the_end_loser': self.the_end_loser,
+                'generic_death': self.generic_death
             },
-            _central_corridor)
+            self.central_corridor)
 
 
-available_games = ['gothon']
+gothon = Gothon()
+
+available_games = {
+    'gothon': gothon
+}

@@ -31,10 +31,10 @@ def test_map():
 
 def test_gothon_game_map():
     game = available_games['gothon']
-    start_room = game.load_room(game)
+    start_room = game.start_room
     
-    assert start_room.go('shoot!') == game._generic_death
-    assert start_room.go('dodge!') == game._generic_death
+    assert start_room.go('shoot!') == game.generic_death
+    assert start_room.go('dodge!') == game.generic_death
 
     room = start_room.go('tell a joke')
-    assert room == game._laser_weapon_armory
+    assert room == game.laser_weapon_armory
