@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+{% endblock %}
+
+
+{% block content %}
+
+<div class="login-container">
+    <h2>Welcome, adventurer!</h2><br>
+    <p>Create your account: </p>
+
+    <div class="form-container">
+        <form action=/auth/signup method="POST">
+            {{ form.hidden_tag() }}
+
+            {{ form.username.label }}
+            {% if form.username.errors %}
+                {{ form.username(class="is-invalid") }}
+                <div class="errors-container">
+                    {% for error in form.username.errors %}
+                        <span class="error-feedback">- {{ error }}</span><br>
+                    {% endfor%}
+                </div>
+            {% else %}
+                {{ form.username(autofocus=True
+                    )}}    
+            {% endif %}
+
+            {{ form.email.label }}
+            {% if form.email.errors %}
+                {{ form.email(class="is-invalid") }}
+                <div class="errors-container">
+                    {% for error in form.email.errors %}
+                        <span class="error-feedback">- {{ error }}</span><br>
+                    {% endfor%}
+                </div>
+            {% else %}
+                {{ form.email()}}    
+            {% endif %}
+
+            {{ form.password.label }}
+            {% if form.password.errors %}
+                {{ form.password(class="is-invalid") }}
+                <div class="errors-container">
+                    {% for error in form.password.errors %}
+                        <span class="error-feedback">- {{ error }}</span><br>
+                    {% endfor%}
+                </div>
+            {% else %}
+                {{ form.password() }}    
+            {% endif %}
+        
+            {{ form.confirm.label }}
+            {% if form.confirm.errors %}
+            {{ form.confirm(class="is-invalid") }}
+                <div class="errors-container">
+                    {% for error in form.confirm.errors %}
+                        <span class="error-feedback">- {{ error }}</span><br>
+                    {% endfor%}
+                </div>
+            {% else %}
+                {{ form.confirm()}}    
+            {% endif %}
+
+            {{ form.submit(class="button") }}
+        </form>
+    </div>
+</div>
+
+{% endblock %}

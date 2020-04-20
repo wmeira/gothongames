@@ -27,7 +27,6 @@ Simple storytelling webgame with the purpose of learning Python and Flask framew
     
 ## TODO
 
-  - Bug no handler do next page do login
   - Melhorar aparência HTML  
   - Sistema de ajuda  
   - Sistema de pontuação

@@ -1,72 +1,14 @@
-from flask import session, redirect, url_for, request, flash, render_template, current_app, abort
-from flask_login import login_required, login_user, logout_user, current_user
+from flask import session, redirect, url_for, request, flash, render_template
+from flask_login import login_required, current_user
 from . import main
-from .forms import LoginForm, SignupForm
-from .. import db, bcrypt
+from .. import db
 from ..models import User, Ranking
 from ..games import Gothon, available_games
-from ..email import send_email
-
-def is_safe_url(url):
-    """
-    Simple implementation to check if next URL is safe
-    """    
-    if not url:
-        return False
-    url = url.strip()
-    return url[0] == '/' and '?' not in url
-
 
 @main.route("/")
 @main.route("/home")
 def home():
     return render_template("index.html")
-
-@main.route('/login', methods=['GET', 'POST'])
-def login():    
-    if current_user.is_authenticated == True:
-        return redirect(url_for('.home'))
-    
-    
-    form = LoginForm()
-    if form.validate_on_submit():
-        username = form.username.data
-        user = User.query.filter_by(username=username).first()
-        if user and bcrypt.check_password_hash(user.password, form.password.data):
-            login_user(user)
-            flash(f'Welcome, {username}!', 'success')
-            next = request.args.get('next')                    
-            if not is_safe_url(next):
-                return redirect(url_for('.home'))
-            return redirect(next)            
-        else:
-            flash('Login Unsuccessful. Please check username and password', 'error')
-    return render_template("login.html", form=form)
-
-@main.route('/logout', methods=['GET'])
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('.login'))
-
-@main.route('/signup', methods=['GET', 'POST'])
-def signup():
-    form = SignupForm()
-    if form.validate_on_submit():
-        username = form.username.data
-        email_data = form.email.data
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=username, email=email_data, password=hashed_password)
-        db.session.add(user)
-        db.session.commit()
-        if current_app.config['MAIL_USERNAME']:
-            send_email(email_data, 'Welcome to GothonWeb!', 'mail/new_user', user=user)
-        flash(f'Player name \'{username}\' registered with success! Login to play!', 'success')
-        return redirect(url_for('.login'))
-    else:
-        form.password.data = ''
-        form.confirm.data = ''
-    return render_template("signup.html", form=form)
 
 @main.route("/ranking", methods=['GET'])
 def ranking():

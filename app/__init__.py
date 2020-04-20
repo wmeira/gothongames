@@ -19,9 +19,9 @@ bcrypt = Bcrypt()
 
 # Login manager configurations
 login_manager = LoginManager()
-login_manager.login_view = "main.login"
+login_manager.login_view = "auth.login"
 login_manager.login_message_category = 'error'
-login_manager.login_message = 'Please log in to play the game'
+login_manager.login_message = 'Please log in to play'
 
 # Protect site against CSRF (cross-site request forgery)
 csrf = CSRFProtect()
@@ -43,5 +43,8 @@ def create_app(config_name='default'):
 
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
+
+    from .auth import auth as auth_blueprint
+    app.register_blueprint(auth_blueprint, url_prefix='/auth')
 
     return app

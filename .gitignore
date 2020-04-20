@@ -133,4 +133,4 @@ dmypy.json
 *_config.bat
 
 #db
-.sqlite
+*.sqlite
