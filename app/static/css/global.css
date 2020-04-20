@@ -43,6 +43,12 @@ button {
     justify-content: space-between;
 }
 
+.header h1 {
+    text-align: center; 
+    line-height: 30px; 
+    font-size:25px;
+}
+
 
 .alert-success {
     padding: 3px;

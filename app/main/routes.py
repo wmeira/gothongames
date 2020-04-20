@@ -1,4 +1,4 @@
-from flask import session, redirect, url_for, request, flash, render_template, current_app
+from flask import session, redirect, url_for, request, flash, render_template, current_app, abort
 from flask_login import login_required, login_user, logout_user, current_user
 from . import main
 from .forms import LoginForm, SignupForm
@@ -7,10 +7,18 @@ from ..models import User, Ranking
 from ..games import Gothon, available_games
 from ..email import send_email
 
+def is_safe_url(url):
+    """
+    Simple implementation to check if next URL is safe
+    """    
+    if not url:
+        return False
+    url = url.strip()
+    return url[0] == '/' and '?' not in url
+
 
 @main.route("/")
 @main.route("/home")
-@login_required
 def home():
     return render_template("index.html")
 
@@ -18,14 +26,18 @@ def home():
 def login():
     if current_user.is_authenticated == True:
         return redirect(url_for('.home'))
-
+    
     form = LoginForm()
     if form.validate_on_submit():
         username = form.username.data
         user = User.query.filter_by(username=username).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
-            return redirect(url_for('.home'))
+            flash(f'Welcome, {username}!', 'success')
+            next = request.args.get('next')
+            if not is_safe_url(next):
+                return redirect(url_for('.home'))
+            return redirect(next)            
         else:
             flash('Login Unsuccessful. Please check username and password', 'error')
     return render_template("login.html", form=form)
@@ -54,6 +66,21 @@ def signup():
         form.password.data = ''
         form.confirm.data = ''
     return render_template("signup.html", form=form)
+
+@main.route("/ranking", methods=['GET'])
+def ranking():
+    global_ranking = {}
+    user_ranking = {}
+    for game in available_games.keys(): 
+        best_five_scores = Ranking.get_best_scores(game, 5)
+        
+        if current_user.is_authenticated:
+            best_user_score = Ranking.get_best_user_score(current_user.username, game)
+            user_ranking[game] = best_user_score
+        else:
+            user_ranking[game] = None
+        global_ranking[game] = best_five_scores
+    return render_template("ranking.html", global_ranking=global_ranking, user_ranking=user_ranking)
 
 
 @main.route("/game/gothon", methods=['GET', 'POST'])
@@ -90,25 +117,9 @@ def game_gothon():
             return redirect(url_for(".game_gothon"))
 
 
-@main.route("/game/mosquito", methods=['GET', 'POST'])
+@main.route("/game/riddlemaster", methods=['GET', 'POST'])
 @login_required
-def game_mosquito():
+def game_riddlemaster():
     #TODO game as a route parameter
-    return render_template("/game/mosquito.html")
-
-
-@main.route("/ranking", methods=['GET'])
-def ranking():
-    global_ranking = {}
-    user_ranking = {}
-    for game in available_games.keys(): 
-        best_five_scores = Ranking.get_best_scores(game, 5)
-        
-        if current_user.is_authenticated:
-            best_user_score = Ranking.get_best_user_score(current_user.username, game)
-            user_ranking[game] = best_user_score
-        else:
-            user_ranking[game] = None
-        global_ranking[game] = best_five_scores
-    return render_template("ranking.html", global_ranking=global_ranking, user_ranking=user_ranking)
+    return render_template("/game/riddlemaster.html")
 

@@ -131,3 +131,6 @@ dmypy.json
 
 # config script
 *_config.bat
+
+#db
+.sqlite

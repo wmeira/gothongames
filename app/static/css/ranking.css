@@ -1,0 +1,34 @@
+.ranking-container {
+    width: 100%;
+    max-width: 500px;
+    align-items: top;
+    height: 100vh;
+    margin: 0 auto;
+    justify-content: space-between;   
+}
+
+.game-container {
+    margin-top: 20px;
+    background-color: white;
+    padding: 10px;
+}
+
+.game-container p {
+    margin-top: 20px;
+}
+
+.game-container h2 {
+    text-align: center;
+}
+
+.game-container table {
+    margin-top: 20px;
+    width: 100%;
+    border: 1px solid black;
+    font-size: small;
+}
+
+.game-container th {
+    text-align: center;
+}
+

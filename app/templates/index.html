@@ -6,16 +6,13 @@
 
 {% block content %}
 <div class="play-container"> 
-    {% if current_user.is_authorized %}
-        
-    {% endif %}
-    
-    
-    <p>Which mission are you ready to play?</p>
+    <h1>Welcome to the Gothon Starship Games! </h1>
 
-    <div class="missions">
+    <h3>Which games are you ready to play?</h3>
+
+    <div class="games">
         <button class="gothon" src="{{ url_for('main.game_gothon') }}">Gothon</button>
-        <button class="mosquito" src="{{ url_for('main.game_mosquito') }}">Mosquito</button>
+        <button class="riddle-master" src="/game/riddlemaster">Riddle Master</button>
     </div>
 
 </div>

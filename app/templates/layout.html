@@ -5,7 +5,7 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='/css/global.css') }}">
         {% block css %} {% endblock %}
 
-        <title>Gothons From Planet Percal #25</title>
+        <title>Gothon Starship Games</title>
     </head>
     <body>
         <div class="content">
@@ -20,18 +20,18 @@
             {% endwith %}
 
             <div class="nav-bar">
-                <a href="{{ url_for('main.home') }}">Game</a>
+                <a href="{{ url_for('main.home') }}">Home</a>
                 <a href="{{ url_for('main.ranking') }}">Ranking</a>
                 
                 {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('main.logout') }}">Logout</a>
+                    <a href="{{ url_for('main.logout') }}">Logout ({{ current_user.username }})</a>
                 {% else %}
                     <a href="{{ url_for('main.login') }}">Login</a>
                 {% endif %}
             </div>
 
             <div class="header">
-                <h1>Gothons From Planet Percal #25</h1>
+                <h1>Gothon Starship Games</h1>
                 <img alt="Starship" src="{{ url_for('static', filename='/img/gothon_ship.png')}}"" height="100" width="100" />
             </div>
 

@@ -1,5 +1,5 @@
 class Game(object):
-       
+
     def __init__(self, name, description, rooms, start_room):
         self.name = name
         self.description = description
@@ -20,7 +20,7 @@ class Game(object):
 class Room(object):
 
     # Possible answer outputs: sentences, output types
-    # Types 
+    # Types
 
     def __init__(self, name, description):
         self.name = name
@@ -37,12 +37,11 @@ class Room(object):
         self.paths.update(paths)
 
 
-""" Gothon Game """
-
 class Gothon(Game):
+    """ Gothon Game """
 
-    central_corridor = Room("Central Corridor", 
-    """
+    central_corridor = Room("Central Corridor",
+                            """
     The Gothons of Planet Percal #25 have invaded your ship and destroyed
     your entire crew. You are the last surviving member and your last 
     mission is to get the neutron destruct bomb from the Weapons Armory, put
@@ -54,8 +53,8 @@ class Gothon(Game):
     the Armory and about to pull a weapon to blast you.
     """)
 
-    laser_weapon_armory = Room("Laser Weapon Armory", 
-    """
+    laser_weapon_armory = Room("Laser Weapon Armory",
+                               """
     Lucky for you they made you learn Gothon insults in the academy. You
     tell the one Gothon joke you know: Lbhe zbgure vf fb sng, jura fur fvgf
     nebhaq gur ubhfr, fur fvgf nebhaq gur ubhfr. The Gothon stops, tries
@@ -70,10 +69,10 @@ class Gothon(Game):
     code to get the bomb out. If you get the code wrong 10 times then the 
     lock closes forever and you can't get the bomb. The code is 3 digits.
     """
-    )
+                               )
 
     the_bridge = Room("The Bridge",
-    """
+                      """
     The container clicks open and the seal breaks, letting gas out. You 
     grab the neutron bomb and run as fast as you can to the bridge where 
     you must place it in the right spot.
@@ -86,7 +85,7 @@ class Gothon(Game):
     """)
 
     escape_pod = Room("Escape Pod",
-    """
+                      """
     You point your blaster at the bomb under your arm and the Gothons put
     their hands up and start to sweat. You inch backward to the door, open
     it, and then carefully place the bomb on the floor, pointing your
@@ -103,7 +102,7 @@ class Gothon(Game):
     """)
 
     the_end_winner = Room("The End",
-    """
+                          """
     You jump into pod 2 and hit the eject button. The pod easily slides out
     into space heading to the planet below. As it flies to the planet, you
     look back and see your ship implode then explode like a bright star,
@@ -111,7 +110,7 @@ class Gothon(Game):
     """)
 
     the_end_loser = Room("The End",
-    """
+                         """
     You jump into a random pod and hit the eject button. The pod escapes 
     out into the void of space, then implodes as the hull ruptures, crushing
     your body into jam jelly.
@@ -142,8 +141,8 @@ class Gothon(Game):
 
     def __init__(self):
         super().__init__(
-            'gothon', 
-            'Escape from planet Gothon!', 
+            'gothon',
+            'Escape from planet Gothon!',
             {
                 'central_corridor': self.central_corridor,
                 'laser_weapon_armory': self.laser_weapon_armory,
@@ -156,8 +155,62 @@ class Gothon(Game):
             self.central_corridor)
 
 
+class RiddleMaster(Game):
+    """ Riddle Master Game """
+
+    easy_guys_go = Room("Easy Guys, Go!",
+                        "What has to be broken before you can use it?")
+
+    son_name = Room("Son name",
+                    "David’s parents have three sons: Snap, Crackle, and what’s the name of the third son?")
+
+    car_people = Room("How tight is this car... hmmpf",
+                      "One grandfather, two fathers, two sons, and one grandson enter in a car. How many people are in the car?")
+
+    the_end_winner = Room("The End",
+                          """
+    Congratulations! You are a riddle master after all!
+    """)
+
+    the_end_loser = Room("The End",
+                         """
+    Unfortunately, you are not a riddle master. Come later after you rest in that furniture that has one head, one foot and four legs...
+    """)
+
+    easy_guys_go.add_paths({
+        'egg': son_name,
+        '*': the_end_loser,
+    })
+
+    son_name.add_paths({
+        'david': car_people,
+        '*': the_end_loser,
+    })
+
+    car_people.add_paths({
+        '3': the_end_winner,
+        'three': the_end_winner,
+        '*': the_end_loser,
+    })
+
+    def __init__(self):
+        super().__init__(
+            'Riddle Master',
+            'What have I got in my pocket?! (Bagins, Bilbo)',
+            {
+                'easy_guys_go': self.easy_guys_go,
+                'son_name': self.son_name,
+                'car_people': self.car_people,
+                'the_end_winner': self.the_end_winner,
+                'the_end_loser': self.the_end_loser,
+            },
+            self.easy_guys_go)
+
+
 gothon = Gothon()
+riddlemaster = RiddleMaster()
 
 available_games = {
-    'gothon': gothon
+    'gothon': gothon,
+    'riddlemaster': riddlemaster
 }

@@ -19,16 +19,19 @@ Simple storytelling webgame with the purpose of learning Python and Flask framew
 
 ## Pages
 
-- Game (index)
+- Home
+- Games: Gothon | Riddle Master | World Flags Quiz
 - Login
+- Signup
 - Ranking
     
 ## TODO
-  
-  - Quem está logado (nav-bar)
-  - Sistema de ajuda
+
   - Melhorar aparência HTML  
+  - Sistema de ajuda  
   - Sistema de pontuação
-  - Escolha de jogo (incluir quizzes)
-  - Aumentar a complexidade do mapa
+  - Jogos: 
+    - Melhorar GothonWeb
+    - Criar Riddle Master
+    - Criar World Flags Quiz
   - Aumentar a cobertura dos testes automatizados

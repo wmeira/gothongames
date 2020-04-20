@@ -1,20 +1,26 @@
 {% extends "layout.html" %}
 
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ranking.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="ranking-container">
     <h1>Top best scores</h1>
 
     {% for game, rank in global_ranking.items() %}
-        <div class="game-container" style="width: 100%;"></div>
-            <h2>{{ game }}</h2>
+        <div class="game-container" style="width: 100%;">
+            <h2>{{ game|upper }}</h2>
             {% if current_user.is_authenticated %}
-                <p style="font-weight:bold">{{ current_user.username|capitalize }} best score {% if user_ranking[game] %}{{ user_ranking[game].score }}{% else %}0{% endif%}</p>
+                <p style="font-weight:bold">{{ current_user.username|capitalize }} best score <b>{% if user_ranking[game] %}{{ user_ranking[game].score }}{% else %}0{% endif%}</b></p>
             {% endif %}
+
             <table>
                 <tr>
                     <th>Ranking</th>
                     <th>Player</th>
-                    <th>Score</th>
+                    <th>Timestamp</th>
+                    <th>Score</th>                    
                 </tr>
                 {% for r in rank %}
                     <tr {% if current_user.is_authenticated and r.user_id == current_user.username  %}style="font-weight:bold"{% endif%}>
