@@ -1,0 +1,41 @@
+.welcome-container {
+    width: 100%;
+    max-width: 500px;
+    align-items: top;
+    height: 100vh;
+    margin: 0 auto;
+    justify-content: space-between;   
+}
+
+.welcome-container p {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.welcome-container a {
+    margin: 10px 0;
+    padding: 20px 40px;    
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.welcome-container a.gothon:link, .welcome-container a.gothon:visited {
+    background-color: green;
+    color: white;
+}
+
+.welcome-container a.gothon:hover, .welcome-container a.gothon:active {
+    opacity: 0.8;
+}
+
+.welcome-container a.riddle-master:link, .welcome-container a.riddle-master:visited {
+    background-color: black;
+    color: white;
+}
+
+.welcome-container a.riddle-master:hover, .welcome-container a.riddle-master.gothon:active {
+    opacity: 0.8;
+}

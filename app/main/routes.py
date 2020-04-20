@@ -23,9 +23,10 @@ def home():
     return render_template("index.html")
 
 @main.route('/login', methods=['GET', 'POST'])
-def login():
+def login():    
     if current_user.is_authenticated == True:
         return redirect(url_for('.home'))
+    
     
     form = LoginForm()
     if form.validate_on_submit():
@@ -34,7 +35,7 @@ def login():
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
             flash(f'Welcome, {username}!', 'success')
-            next = request.args.get('next')
+            next = request.args.get('next')                    
             if not is_safe_url(next):
                 return redirect(url_for('.home'))
             return redirect(next)            

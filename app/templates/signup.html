@@ -24,7 +24,7 @@
                     {% endfor%}
                 </div>
             {% else %}
-                {{ form.username()}}    
+                {{ form.username(autofocus=True)}}    
             {% endif %}
 
             {{ form.email.label }}

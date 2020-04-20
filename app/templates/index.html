@@ -1,19 +1,21 @@
 {% extends "layout.html" %}
 
 {% block css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/play.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 {% endblock %}
 
 {% block content %}
-<div class="play-container"> 
-    <h1>Welcome to the Gothon Starship Games! </h1>
+<div class="welcome-container"> 
+    {% if current_user.is_authenticated %}
+        <h2>Welcome, {{ current_user.username|capitalize }}! </h2>
+    {% else %}
+        <h2>Welcome, Stranger! </h2>
+    {% endif %}
+    
 
-    <h3>Which games are you ready to play?</h3>
-
-    <div class="games">
-        <button class="gothon" src="{{ url_for('main.game_gothon') }}">Gothon</button>
-        <button class="riddle-master" src="/game/riddlemaster">Riddle Master</button>
-    </div>
+    <p>Choose a game to play:</p>
+    <a class="gothon" href="{{ url_for('main.game_gothon') }}">Gothon</a>
+    <a class="riddle-master" href="{{ url_for('main.game_riddlemaster') }}">Riddle Master</a>
 
 </div>
 
