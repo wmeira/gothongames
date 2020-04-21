@@ -12,7 +12,7 @@
     <p>Login to start playing! If you don't have an account, <a href="{{ url_for('auth.signup') }}">sign up here</a></p>
 
     <div class="form-container">
-        <form action="{{ url_for('auth.login', next= request.args.get('next')) }}" method="POST">
+        <form method="POST">
             {{ form.hidden_tag() }}
             
             {{ form.username.label }}
