@@ -11,11 +11,10 @@
     {% else %}
         <h2>Welcome, Stranger! </h2>
     {% endif %}
-    
 
     <p>Choose a game to play:</p>
-    <a class="gothon" href="{{ url_for('main.game_gothon') }}">Gothon</a>
-    <a class="riddle-master" href="{{ url_for('main.game_riddlemaster') }}">Riddle Master</a>
+    <a class="gothon" href="{{ url_for('game.play', name='gothon') }}">Gothon</a>
+    <a class="riddle-master" href="{{ url_for('game.play', name='riddlemaster') }}">Riddle Master</a>
 
 </div>
 

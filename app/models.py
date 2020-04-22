@@ -1,6 +1,9 @@
-from . import db, login_manager, bcrypt
-from flask_login import UserMixin
 from datetime import datetime
+from flask import current_app
+from flask_login import UserMixin
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from . import db, login_manager, bcrypt
+# from werkzeug.security import generate_password_hash, check_password_hash
 
 # UserMixin provides default implementations for the methods that Flask-Login expects user objects to have.
 class User(UserMixin, db.Model):
@@ -8,24 +11,41 @@ class User(UserMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(40), unique=True)
-    email = db.Column(db.String(200), unique=True)
+    email = db.Column(db.String(200), unique=True, nullable=False)
     password_hash = db.Column(db.String(200), nullable=False)
-    
+    confirmed = db.Column(db.Boolean, default=False)
+
     @property
     def password(self):
         raise AttributeError('password is not a readable attribute')
 
     @password.setter
     def password(self, password):
+        # self.password_hash = generate_password_hash(password) #werkzeug
         self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
 
     def verify_password(self, password):
+        # return check_password_hash(self.password_hash, password) #werkzeug
         return bcrypt.check_password_hash(self.password_hash, password)
 
+    def generate_confirmation_token(self, expiration=3600):
+        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        return s.dumps({'confirm': self.id}).decode('utf-8')
 
+    def confirm(self, token):
+        s = Serializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token.encode('utf-8'))
+        except:
+            return False
+        if data.get('confirm') != self.id:
+            return False
+        self.confirmed = True
+        db.session.add(self)
+        return True
 
     def __repr__(self):
-        return f"User('{self.id}', '{self.username}', '{self.email}', ')"
+        return f"User('{self.id}', '{self.username}', '{self.email}', {self.confirmed})"
 
 class Ranking(db.Model):
     __tablename__ = 'ranking'

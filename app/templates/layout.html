@@ -24,7 +24,8 @@
                 <a href="{{ url_for('main.ranking') }}">Ranking</a>
                 
                 {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('auth.logout') }}">Logout ({{ current_user.username }})</a>
+                    <a href="{{ url_for('auth.logout') }}">Logout ({{current_user.username}}
+                        {%- if not current_user.confirmed -%}*{%- endif %})</a>
                 {% else %}
                     <a href="{{ url_for('auth.login') }}">Login</a>
                 {% endif %}

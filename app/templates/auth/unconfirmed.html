@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h2>Hello, {{ current_user.username }}</h2>
+
+<h4 style="margin-top: 20px;">You have not confirmed your account yet.</h4>
+
+<p style="margin-top: 20px;">Before you can access this game, you need to confirm your account. Check your inbox, you should have received an e-mail with a confirmation link.</p>
+<br>
+<p>Need another confirmation link? <a href={{ url_for('auth.resend_confirmation') }}>Click here</a></p>
+
+
+{% endblock %}

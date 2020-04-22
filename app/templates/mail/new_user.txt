@@ -1,5 +1,10 @@
 Thank you for registering dear {{ user.username }}!
 
-GothonWeb is waiting you to play!
+Gothon Starship Games is waiting you to play!
+
+Please confirm your e-mail clicking on the following link:
+
+{{ url_for('auth.confirm', token=token, _external=True) }}
+
 
 Get the highest score!
