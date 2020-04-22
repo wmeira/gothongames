@@ -5,7 +5,9 @@ class Game(object):
         self.description = description
         self.start_room = start_room
         self.current_room = start_room
-        self._rooms = rooms
+        self._rooms = {}
+        for room in rooms:
+            self._rooms[room.name] = room
 
     def load_room(self, name):
         return self._rooms[name]
@@ -143,15 +145,15 @@ class Gothon(Game):
         super().__init__(
             'gothon',
             'Escape from planet Gothon!',
-            {
-                'central_corridor': self.central_corridor,
-                'laser_weapon_armory': self.laser_weapon_armory,
-                'the_bridge': self.the_bridge,
-                'escape_pod': self.escape_pod,
-                'the_end_winner': self.the_end_winner,
-                'the_end_loser': self.the_end_loser,
-                'generic_death': self.generic_death
-            },
+            [
+                self.central_corridor,
+                self.laser_weapon_armory,
+                self.the_bridge,
+                self.escape_pod,
+                self.the_end_winner,
+                self.the_end_loser,
+                self.generic_death
+            ],
             self.central_corridor)
 
 
@@ -197,13 +199,13 @@ class RiddleMaster(Game):
         super().__init__(
             'Riddle Master',
             'What have I got in my pocket?! (Bagins, Bilbo)',
-            {
-                'easy_guys_go': self.easy_guys_go,
-                'son_name': self.son_name,
-                'car_people': self.car_people,
-                'the_end_winner': self.the_end_winner,
-                'the_end_loser': self.the_end_loser,
-            },
+            [
+                self.easy_guys_go, 
+                self.son_name, 
+                self.car_people,
+                self.the_end_winner, 
+                self.the_end_loser,
+            ],
             self.easy_guys_go)
 
 

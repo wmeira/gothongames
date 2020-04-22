@@ -6,22 +6,25 @@
 
 {% block content %}
 
-<h1>Gothon Mission: {{ room.name }}</h1>
-<pre>
-    {{room.description}}
-</pre>
+<div class="game-container">
+    <h1>Gothon Game</h1>
 
-{% if room.name in ["death", "The End"] %}
-    <p><a href="/">Play Again?</a></p>
-{% else %}
-    <p>
-        <form action="/game/gothon" method="POST">
-            
-            <input type="text" name="action">
-            <input type="submit">
-        </form>
+    <h4 style="margin-top: 20px;">{{ room.name }}</h4>
+    
+    <p class=room-description>
+        {{room.description}}
     </p>
-{% endif %}
+    
+    {% if room.name in ["death", "The End"] %}
+        <p><a href="/">Play Again?</a></p>
+    {% else %}
+        <form method="POST"> 
+            <div class="form-group">
+                {{ form.action(class_='action') }}{{ form.submit(class_='submit') }}
+            </div>
+        </form>
+    {% endif %}    
+</div>
 
 {% endblock %}
 
