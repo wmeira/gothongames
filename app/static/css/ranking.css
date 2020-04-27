@@ -25,10 +25,12 @@
     margin-top: 20px;
     width: 100%;
     border: 1px solid black;
-    font-size: small;
+    font-size: 10px;
 }
 
+.game-container td,
 .game-container th {
-    text-align: center;
+    margin-top: 5px;
+    padding: 5px;
+    text-align: left;
 }
-

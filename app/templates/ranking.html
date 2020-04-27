@@ -17,7 +17,7 @@
 
             <table>
                 <tr>
-                    <th>Ranking</th>
+                    <th>Top</th>
                     <th>Player</th>
                     <th>Timestamp</th>
                     <th>Score</th>                    
@@ -25,8 +25,8 @@
                 {% for r in rank %}
                     <tr {% if current_user.is_authenticated and r.user_id == current_user.username  %}style="font-weight:bold"{% endif%}>
                         <td>{{ loop.index }}</td>
-                        <td>{{ r.user.username }}</td>
-                        <td>{{ moment(r.ts).format('L') }} {{ moment(r.ts).format('LTS') }}</td>
+                        <td>{{ r.user.username|capitalize }}</td>
+                        <td>{{ moment(r.ts).format('L') }}{{ moment(r.ts).format('LTS') }}</td>
                         <td>{{ r.score }}</td>
                     </tr>
                 {% endfor %}
@@ -40,5 +40,6 @@
 
 {% block scripts %}
 {{ super() }}
+{{ moment.include_jquery() }}
 {{ moment.include_moment() }}
 {% endblock %}

@@ -76,7 +76,7 @@ class Ranking(db.Model):
         return Ranking.query.filter_by(game=game, user_id=user_id).order_by(Ranking.score.desc()).first()
 
     def __repr__(self):
-        return f"Ranking('{self.id}', '{self.user_id}', '{self.game}', {self.score}, {self.timestamp})"
+        return f"Ranking('{self.id}', '{self.user_id}', '{self.game}', {self.score}, {self.ts})"
 
 
 

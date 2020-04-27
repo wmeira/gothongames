@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, current_app
 from flask_login import current_user
 from . import main
 from ..models import Ranking
@@ -17,9 +17,11 @@ def ranking():
         best_five_scores = Ranking.get_best_scores(game, 5)
         
         if current_user.is_authenticated:
-            best_user_score = Ranking.get_best_user_score(current_user.username, game)
+            best_user_score = Ranking.get_best_user_score(current_user.id, game)
             user_ranking[game] = best_user_score
+            # current_app.logger.debug(best_user_score)
         else:
             user_ranking[game] = None
         global_ranking[game] = best_five_scores
+        # current_app.logger.debug(best_five_scores)
     return render_template("ranking.html", global_ranking=global_ranking, user_ranking=user_ranking)
