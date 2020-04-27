@@ -1,5 +1,15 @@
+from flask import current_app
+
 class Room(object):
-    
+    """
+    Room phase of a game
+
+    Paths options:
+        *: path to an unexpected (or wrong) answer
+        -: path after maximum number of errors
+        string: path to given action string (must be exact)
+    """
+
     _stopwords = ['ourselves', 'hers', 'between', 'yourself', 'but', 'again', 'there', 
                   'about', 'once', 'during', 'out', 'very', 'having', 'with', 'they', 
                   'own', 'an', 'be', 'some', 'for', 'do', 'its', 'yours', 'such', 
@@ -40,7 +50,7 @@ class Room(object):
     def split_action(self, action):
         if self.is_quiz():
             return [action]
-        words = [w.strip() for w in action.split() if w in self._stopwords]
+        words = [w.strip() for w in action.split() if w not in self._stopwords]
         return words
 
     def go(self, action):
@@ -48,15 +58,19 @@ class Room(object):
             return self, 0, 'Invalid action...'
 
         splited_action = self.split_action(action)
-
+        current_app.logger.debug(splited_action)
+        current_app.logger.debug(self.paths)
         for word in splited_action:
             if word in self.paths:
                 return *self.paths.get(action, None), None
         else:
-            if self.paths['*']:
+            if self.paths.get('*'):
                 return *self.paths.get('*', None), 'You got it wrong...'
-            if self.max_errors <= 1:
-                return None, 0, 'You failed (max trials)...'
+            elif self.max_errors <= 1:
+                if self.paths.get('-'):
+                    return *self.paths['-'], 'You got it wrong...'
+                else:
+                    return None, 0, 'You failed (trials limit)...'
             else:
                 self.max_errors -= 1
         return self, 0, 'Wrong answer.. Try again!'
@@ -140,16 +154,17 @@ class Gothon(Game):
     Lucky for you they made you learn Gothon insults in the academy. You
     tell the one Gothon joke you know: Lbhe zbgure vf fb sng, jura fur fvgf
     nebhaq gur ubhfr, fur fvgf nebhaq gur ubhfr. The Gothon stops, tries
-    not to laugh, then busts out laughing and can't move. While he's
+    not to laugh, then busts out laughing 3 times and can't move. While he's
     laughing you run up and shoot him square in the head putting him down,
     then jump through the Weapon Armory door.
 
     You do a dive roll into the Weapon Armory, crouch and scan the room for
     more Gothons that might be hiding. It's dead quiet, too quiet. You
-    stand up and run to the far side of the room and find the neutron bomb
+    stand up and run two the far side of the room and find the neutron bomb
     in its container. There's a keypad lock on the box and you need the
-    code to get the bomb out. If you get the code wrong 10 times then the 
-    lock closes forever and you can't get the bomb. The code is 3 digits.
+    code to get the bomb out. If you get the code wrong <b>10 times</b> then the 
+    lock closes forever and you can't get the bomb. The code is <b>3 digits</b>
+    (interesting leads my be found in the description text, so look for numbers...)
     """, room_type='action', max_errors=10)
 
     the_bridge = Room("The Bridge",
@@ -179,15 +194,15 @@ class Gothon(Game):
     are on the ship, so your run is clear of interference. You get to the
     chamber with the escape pods, and now need to pick one to take. Some of
     them could be damaged but you don't have time to look. There's 5 pods,
-    which one do you take?
-    """, room_type='action')
+    which one do you take? (You have 2 chances)
+    """, room_type='action', max_errors=2)
 
     the_end_winner = Room("The End",
                           """
     You jump into pod 2 and hit the eject button. The pod easily slides out
     into space heading to the planet below. As it flies to the planet, you
     look back and see your ship implode then explode like a bright star,
-    taking out the Gothon ship at the same time. You won!
+    taking out the Gothon ship at the same time. <b>Congratulations, you won!</b>!
     """)
 
     the_end_loser = Room("The End",
@@ -197,9 +212,15 @@ class Gothon(Game):
     your body into jam jelly.
     """)
 
-    escape_pod.add_paths({
-        '2': (the_end_winner, 20),
-        '*': (the_end_loser, 0)
+    central_corridor.add_paths({
+        'shoot!': (Game.generic_end, 0),
+        'dodge!': (Game.generic_end, 0),
+        'tell a joke': (laser_weapon_armory, 10)
+    })
+
+    laser_weapon_armory.add_paths({
+        '132': (the_bridge, 10),
+        '-': (Game.generic_end, 0)
     })
 
     the_bridge.add_paths({
@@ -207,15 +228,9 @@ class Gothon(Game):
         'slowly place the bomb': (escape_pod, 10)
     })
 
-    laser_weapon_armory.add_paths({
-        '0132': (the_bridge, 10),
-        '*': (Game.generic_end, 0)
-    })
-
-    central_corridor.add_paths({
-        'shoot!': (Game.generic_end, 0),
-        'dodge!': (Game.generic_end, 0),
-        'tell a joke': (laser_weapon_armory, 10)
+    escape_pod.add_paths({
+        '2': (the_end_winner, 20),
+        '-': (the_end_loser, 0)
     })
 
     def __init__(self):

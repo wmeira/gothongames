@@ -18,12 +18,12 @@ def play(name):
         game = available_games[name]()
     else:
         game = pickle.loads(session.get('game'))
-        current_app.logger.debug(game.current_room)
-        current_app.logger.debug(game.name)
-        current_app.logger.debug(name)  
-        current_app.logger.debug(request.referrer)  
-        current_app.logger.debug('game' not in request.referrer)
-        current_app.logger.debug(game.is_game_over())
+        # current_app.logger.debug(game.current_room)
+        # current_app.logger.debug(game.name)
+        # current_app.logger.debug(name)  
+        # current_app.logger.debug(request.referrer)  
+        # current_app.logger.debug('game' not in request.referrer)
+        # current_app.logger.debug(game.is_game_over())
 
         if game.name != name \
             or request.referrer is None \
@@ -32,21 +32,28 @@ def play(name):
             current_app.logger.debug("New game..")
             game = available_games[name]()
 
-    if game.current_room.is_quiz():
-        form = GameQuizForm(game.current_room)
+    current_room = game.current_room
+    if current_room.is_quiz():
+        form = GameQuizForm(current_room)
     else:
         form = GameForm()
 
     if form.validate_on_submit():
         action = form.action.data
         new_room, msg = game.go(action)
+        current_app.logger.debug(msg)
         if msg is not None and msg != '':
             # wrong answer
-            game.trials += 1
+            current_app.logger.debug(msg)
             flash(msg, 'error')
             if not game.current_room.is_quiz():                
                 form.action.data = ''
-        elif game.is_game_over():
+        
+        if new_room == current_room:
+            # same room, new trial
+            game.trials += 1
+
+        if game.is_game_over():
             # game_over
             r = Ranking(game=game.name, score=game.calculated_score(), user=current_user._get_current_object())
             db.session.add(r)
