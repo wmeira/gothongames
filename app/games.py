@@ -1,43 +1,120 @@
-class Game(object):
-
-    def __init__(self, name, description, rooms, start_room):
-        self.name = name
-        self.description = description
-        self.start_room = start_room
-        self.current_room = start_room
-        self._rooms = {}
-        for room in rooms:
-            self._rooms[room.name] = room
-
-    def load_room(self, name):
-        return self._rooms[name]
-
-    def name_room(self, room):
-        for (key, value) in self._rooms.items():
-            if value == room:
-                return key
-        return None
-
-
 class Room(object):
+    
+    _stopwords = ['ourselves', 'hers', 'between', 'yourself', 'but', 'again', 'there', 
+                  'about', 'once', 'during', 'out', 'very', 'having', 'with', 'they', 
+                  'own', 'an', 'be', 'some', 'for', 'do', 'its', 'yours', 'such', 
+                  'into', 'of', 'most', 'itself', 'other', 'off', 'is', 's', 'am', 
+                  'or', 'who', 'as', 'from', 'him', 'each', 'the', 'themselves', 
+                  'until', 'below', 'are', 'we', 'these', 'your', 'his', 'through', 
+                  'don', 'nor', 'me', 'were', 'her', 'more', 'himself', 'this', 'down', 
+                  'should', 'our', 'their', 'while', 'above', 'both', 'up', 'to', 'ours', 
+                  'had', 'she', 'all', 'no', 'when', 'at', 'any', 'before', 'them', 'same', 
+                  'and', 'been', 'have', 'in', 'will', 'on', 'does', 'yourselves', 'then', 
+                  'that', 'because', 'what', 'over', 'why', 'so', 'can', 'did', 'not', 'now', 
+                  'under', 'he', 'you', 'herself', 'has', 'just', 'where', 'too', 'only', 
+                  'myself', 'which', 'those', 'i', 'after', 'few', 'whom', 't', 'being', 
+                  'if', 'theirs', 'my', 'against', 'a', 'by', 'doing', 'it', 'how', 
+                  'further', 'was', 'here', 'than']
 
     # Possible answer outputs: sentences, output types
     # Types
 
-    def __init__(self, name, description):
+    def __init__(self, name, description, img_file=None, room_type="action", max_errors=10000):
+        """
+        
+        :param description describes the room to the player
+        :param image_file allows an image to complement the description
+        :param room_type options are: 'action' (text input) and 'quiz' (multiple choices input).
+            When the room type is 'quiz', the paths are displayed as radio field options.
+        """
         self.name = name
         self.description = description
+        self.img_file = img_file
+        self.room_type = room_type
+        self.max_errors = max_errors
         self.paths = {}
 
-    def go(self, direction):
-        if direction in self.paths:
-            return self.paths.get(direction, None)
+    def is_quiz(self):
+        return self.room_type == 'quiz'
+                    
+    def split_action(self, action):
+        if self.is_quiz():
+            return [action]
+        words = [w.strip() for w in action.split() if w in _stopwords]
+        return words
+
+    def go(self, action):
+        if action is None:
+            return self, 0, 'Invalid action...'
+
+        splited_action = self.split_action(action)
+
+        for word in splited_action:
+            if word in self.paths:
+                return *self.paths.get(action, None), None
         else:
-            return self.paths.get('*', None)
+            if self.paths['*']:
+                return *self.paths.get('*', None), 'You got it wrong...'
+            if self.max_errors <= 1:
+                return None, 0, 'You failed (max trials)...'
+            else:
+                self.max_errors -= 1
+        return self, 0, 'Wrong answer.. Try again!'
 
     def add_paths(self, paths):
         self.paths.update(paths)
 
+class Game(object):
+    score = 0
+    trials = 0
+
+    generic_end = Room("The End", "You failed.")
+
+    def __init__(self, name, rooms, start_room, show_name=None, description=''):
+        self.name = name
+        if show_name is None:
+            self.show_name = name
+        else:
+            self.show_name = show_name
+        self.description = description
+        self.start_room = start_room
+        self.current_room = start_room
+        self._rooms = self._init_rooms(rooms)
+
+    def _init_rooms(self, rooms):
+        dict_rooms = {}
+        for room in rooms:
+            dict_rooms[room.name] = room
+        return dict_rooms
+
+    def _load_room(self, name):
+        return self._rooms[name]
+
+    def _name_room(self, room):
+        for (key, value) in self._rooms.items():
+            if value == room:
+                return key
+        return None
+    
+    def go(self, action):
+        new_room, points, message = self.current_room.go(action)
+        if new_room is None:
+            self.current_room = self.generic_end
+        else: 
+            self.current_room = new_room
+        self.score += points
+        return self.current_room, message 
+
+    def calculate_score():
+        raise NotImplementedError()
+
+    def reset(self):
+        self.current_room = self.start_room
+        self.score = 0
+        self.trials = 0
+
+    def load_current_room(self):
+        return load_room(self.current_room)
 
 class Gothon(Game):
     """ Gothon Game """
@@ -53,7 +130,7 @@ class Gothon(Game):
     Gothon jumps out, red scaly skin, dark grimy teeth, and evil clown
     costume flowing around his hate filled body. He's blocking the door to
     the Armory and about to pull a weapon to blast you.
-    """)
+    """, room_type='quiz')
 
     laser_weapon_armory = Room("Laser Weapon Armory",
                                """
@@ -70,8 +147,7 @@ class Gothon(Game):
     in its container. There's a keypad lock on the box and you need the
     code to get the bomb out. If you get the code wrong 10 times then the 
     lock closes forever and you can't get the bomb. The code is 3 digits.
-    """
-                               )
+    """, room_type='action', max_errors=10)
 
     the_bridge = Room("The Bridge",
                       """
@@ -84,7 +160,7 @@ class Gothon(Game):
     of them has an even uglier clown costume than the last. They haven't
     pulled their weapons out yet, as they see the active bomb under your arm
     and don't want to set it off.
-    """)
+    """, room_type='quiz')
 
     escape_pod = Room("Escape Pod",
                       """
@@ -101,7 +177,7 @@ class Gothon(Game):
     chamber with the escape pods, and now need to pick one to take. Some of
     them could be damaged but you don't have time to look. There's 5 pods,
     which one do you take?
-    """)
+    """, room_type='action')
 
     the_end_winner = Room("The End",
                           """
@@ -118,44 +194,52 @@ class Gothon(Game):
     your body into jam jelly.
     """)
 
-    generic_death = Room("death", "You died.")
-
     escape_pod.add_paths({
-        '2': the_end_winner,
-        '*': the_end_loser
+        '2': (the_end_winner, 20),
+        '*': (the_end_loser, 0)
     })
 
     the_bridge.add_paths({
-        'throw the bomb': generic_death,
-        'slowly place the bomb': escape_pod
+        'throw the bomb': (Game.generic_end, 0),
+        'slowly place the bomb': (escape_pod, 10)
     })
 
     laser_weapon_armory.add_paths({
-        '0132': the_bridge,
-        '*': generic_death
+        '0132': (the_bridge, 10),
+        '*': (Game.generic_end, 0)
     })
 
     central_corridor.add_paths({
-        'shoot!': generic_death,
-        'dodge!': generic_death,
-        'tell a joke': laser_weapon_armory
+        'shoot!': (Game.generic_end, 0),
+        'dodge!': (Game.generic_end, 0),
+        'tell a joke': (laser_weapon_armory, 10)
     })
 
     def __init__(self):
         super().__init__(
-            'gothon',
-            'Escape from planet Gothon!',
-            [
+            name='gothon',
+            show_name='Escape Gothon',
+            description='Escape from planet Gothon!',
+            rooms=[
                 self.central_corridor,
                 self.laser_weapon_armory,
                 self.the_bridge,
                 self.escape_pod,
                 self.the_end_winner,
                 self.the_end_loser,
-                self.generic_death
             ],
-            self.central_corridor)
-
+            start_room=self.central_corridor)
+    
+    def calculated_score(self):
+        calculated_score = self.score
+        if self.trials >= 15:
+            calculated_score -= 15
+        else:
+            calculated_score -= self.trials
+        if calculated_score < 0:
+            return 0
+        return calculated_score
+        
 
 class RiddleMaster(Game):
     """ Riddle Master Game """
@@ -180,12 +264,12 @@ class RiddleMaster(Game):
     """)
 
     easy_guys_go.add_paths({
-        'egg': son_name,
-        '*': the_end_loser,
+        'egg': (son_name, 10),
+        '*': (the_end_loser, 0),
     })
 
     son_name.add_paths({
-        'david': car_people,
+        'david': (car_people, 10),
         '*': the_end_loser,
     })
 
@@ -197,22 +281,32 @@ class RiddleMaster(Game):
 
     def __init__(self):
         super().__init__(
-            'Riddle Master',
-            'What have I got in my pocket?! (Bagins, Bilbo)',
-            [
+            name='riddle',
+            show_name='Riddle Master',
+            description='What have I got in my pocket?! (Bagins, Bilbo)',
+            rooms=[
                 self.easy_guys_go, 
                 self.son_name, 
                 self.car_people,
                 self.the_end_winner, 
                 self.the_end_loser,
             ],
-            self.easy_guys_go)
+            start_room=self.easy_guys_go)
 
+class WorldFlagQuiz(Game):
+    
+    def __init__(self):
+        super().__init__(
+            name='worldflagquiz',
+            show_name='World Flag Quiz',
+            description='Fun with Flags!',
+            rooms=[],
+            start_room=None
+        )
 
-gothon = Gothon()
-riddlemaster = RiddleMaster()
 
 available_games = {
-    'gothon': gothon,
-    'riddlemaster': riddlemaster
+    'gothon': Gothon,
+    'riddlemaster': RiddleMaster,
+    'worldflagquiz': WorldFlagQuiz
 }

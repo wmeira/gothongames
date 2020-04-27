@@ -19,7 +19,7 @@
                 {% endif %}
             {% endwith %}
 
-            <div class="nav-bar">
+            <nav class="nav-bar">
                 <a href="{{ url_for('main.home') }}">Home</a>
                 <a href="{{ url_for('main.ranking') }}">Ranking</a>
                 
@@ -29,7 +29,7 @@
                 {% else %}
                     <a href="{{ url_for('auth.login') }}">Login</a>
                 {% endif %}
-            </div>
+            </nav>
 
             <div class="header">
                 <h1>Gothon Starship Games</h1>

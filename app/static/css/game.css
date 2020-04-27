@@ -17,7 +17,22 @@
 .game-container .form-group {
     display: flex;
     justify-content: space-between;
-} 
+}
+
+.game-container .form-group-quiz {
+    display: flex;
+    margin-bottom: 5px
+}
+
+.game-container .form-group-quiz input[type="radio"] {
+    margin-top: -6px;
+    vertical-align: middle;
+}
+
+.game-container .form-group-quiz label {
+    margin-left: 8px;
+    vertical-align: middle;
+}
 
 .game-container input {
     height: 25px;
@@ -34,5 +49,10 @@
     padding-right: 5px;
     text-align: center;
     vertical-align: top;
-    
+}
+
+.game-container .play-again {
+    display: flex; 
+    justify-content: space-between;
+    margin-top: 40px; 
 }

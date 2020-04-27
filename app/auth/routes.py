@@ -11,7 +11,7 @@ from ..email import send_email
 @auth.before_app_request
 def before_request():
     if not request.path.startswith('/static') \
-        and request.blueprint not in ['auth', 'main'] \
+        and request.blueprint in ['game'] \
         and current_user.is_authenticated \
         and current_user.confirmed is False:
             return redirect(url_for('auth.unconfirmed'))
