@@ -6,6 +6,7 @@ from flask_bcrypt import Bcrypt
 from flask_moment import Moment
 from flask_migrate import Migrate
 from flask_mail import Mail
+from flask_session import Session
 from config import config
 
 # Mail 
@@ -29,11 +30,14 @@ csrf = CSRFProtect()
 # Moment - UTC time handler
 moment = Moment()
 
+session = Session()
+
 def create_app(config_name='default'):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 
+    session.init_app(app)
     mail.init_app(app)
     db.init_app(app)
     bcrypt.init_app(app)

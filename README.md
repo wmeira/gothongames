@@ -14,9 +14,11 @@ Simple storytelling webgame with the purpose of learning Python and Flask framew
 - Database migration using `flask-migrate`. The migration commands may be accessed through the `manage.py` (`flask-scripts` functionality)
 - E-mail system using `flask-mail` (sends an e-mail when user is registered)
 - Locale of timestamps (UTC to client time) is managed using `flask-moment`
+- Server-side sessions using `flask-session` (fork from `rayluo/flask-session` to fix werkzeug incompatibility)
 - Environments configuration (`development`, `testing`, and `production`)
 - Blueprints (`main`, `auth`, `game`) are being used.
 - Unitary tests using Pytest
+
 
 ## Features
 

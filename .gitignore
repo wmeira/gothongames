@@ -128,9 +128,11 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-
 # config script
 *_config.bat
 
 #db
 *.sqlite
+
+#flask-session
+flask_session/

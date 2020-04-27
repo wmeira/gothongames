@@ -17,7 +17,8 @@ config = {
         'flask-moment',
         'flask-migrate',
         'flask-scripts',
-        'flask-mail'
+        'flask-mail',
+        'git+https://github.com/rayluo/flask-session.git@0.3.x'
     ],
     'tests_require': [
         'pytest'

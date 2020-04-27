@@ -18,6 +18,9 @@ class Config:
     GW_MAIL_SUBJECT_PREFIX = '[GothonWeb]'
     GW_MAIL_SENDER = 'Gothon Game-Master <' + str(MAIL_USERNAME) + '>'
 
+    SESSION_TYPE = 'filesystem'
+    SESSION_PERMANENT = False
+
     @staticmethod
     def init_app(app):
         pass
