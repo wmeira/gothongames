@@ -51,12 +51,12 @@ button {
 
 
 .alert-success {
-    padding: 3px;
+    padding: 8px;
     background-color: lightgreen;
 }
 
 .alert-error {
-    padding: 3px;
+    padding: 8px;
     background-color: lightpink;
 
 }

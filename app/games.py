@@ -40,7 +40,7 @@ class Room(object):
     def split_action(self, action):
         if self.is_quiz():
             return [action]
-        words = [w.strip() for w in action.split() if w in _stopwords]
+        words = [w.strip() for w in action.split() if w in self._stopwords]
         return words
 
     def go(self, action):
@@ -104,6 +104,9 @@ class Game(object):
             self.current_room = new_room
         self.score += points
         return self.current_room, message 
+
+    def is_game_over(self):
+        return self.current_room.name in ['death', 'The End']
 
     def calculate_score():
         raise NotImplementedError()

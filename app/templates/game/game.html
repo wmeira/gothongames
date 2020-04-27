@@ -7,43 +7,24 @@
 {% block content %}
 
 <div class="game-container">
-    <h1>{{ game.show_name }}</h1>
-    <p style="font-size: small; text-align: end; margin-top: 10px;color: gray"><i>{{ game.description }}</i></p>
-    
-    <h3 style="margin-top: 40px;">{{ game.current_room.name }}</h3>
-    
-    <p class=room-description>
-        {{ game.current_room.description|safe }}
-    </p>
+    {% include 'game/_gameroom.html' %}
 
-    {% if game.current_room.img_file %}
-        <img src="{{ url_for('static', filename='img/{game.name}/{game.current_room.img_file}') }}">
-    {% endif %}
-
-    {% if game.current_room.name in ["death", "The End"] %}
-        <h2>Final Score: {{ game.calculated_score() }}</h2>
-        <div class="play-again">
-            <a href="{{ url_for('game.play', name=game.name) }}">Play Again?</a>
-            <a href="{{ url_for('main.home') }}">Return to the game list</a>
-        </div>
-    {% else %}
-        <form method="POST"> 
-            {{ form.hidden_tag() }}
-            {% if game.current_room.is_quiz() %}
-                {% for subfield in form.action %}
-                    <div class="form-group-quiz">
-                        {{ subfield }}{{ subfield.label }}
-                    </div>
-                {% endfor %}
-                {{ form.submit(class_='submit') }}
-            {% else %}
-                <div class="form-group">
-                    {{ form.action(class_='action') }}
-                    {{ form.submit(class_='submit') }}
+    <form method="POST"> 
+        {{ form.hidden_tag() }}
+        {% if game.current_room.is_quiz() %}
+            {% for subfield in form.action %}
+                <div class="form-group-quiz">
+                    {{ subfield }}{{ subfield.label }}
                 </div>
-            {% endif %}    
-        </form>
-    {% endif %}    
+            {% endfor %}
+            {{ form.submit(class_='submit') }}
+        {% else %}
+            <div class="form-group">
+                {{ form.action(class_='action') }}
+                {{ form.submit(class_='submit') }}
+            </div>
+        {% endif %}    
+    </form>
 </div>
 
 {% endblock %}

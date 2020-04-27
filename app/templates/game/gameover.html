@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='/css/game.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="game-container">
+    {% include 'game/_gameroom.html' %}
+
+    <h2>Final Score: {{ game.calculated_score() }}</h2>
+    <div class="play-again">
+        <a href="{{ url_for('game.play', name=game.name) }}">Play Again?</a>
+        <a href="{{ url_for('main.home') }}">Return to the game list</a>
+    </div>
+</div>
+
+{% endblock %}
