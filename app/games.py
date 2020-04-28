@@ -354,13 +354,18 @@ class WorldFlagQuiz(Game):
     
     the_end = Room("Quiz End", "<b style='font-size: 20px'>You completed the quiz!</b>")
 
-    brazil = Room("Flag", "Which country's flag is this?", img_file="brazil.png", room_type="quiz")
+    brazil = Room("Flag", 
+                  "Which country's flag is this?", 
+                  img_file="572e78d8f5048a3b0fadc971e2eeab02b421f16158bbb4e24784c5c2e3f7424a.png", 
+                  room_type="quiz")
     brazil.add_paths({
         'Brazil': (the_end, 1),
         'Argentina': (the_end, 0),
         'Colombia': (the_end, 0),
         'Chile': (the_end, 0)
     })
+
+    
 
     def __init__(self):
         super().__init__(
