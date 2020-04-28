@@ -24,7 +24,7 @@
 
 .welcome-container a.gothon:link, 
 .welcome-container a.gothon:visited {
-    background-color: green;
+    background-color: rgb(100, 95, 47);
     color: white;
 }
 
@@ -41,6 +41,6 @@
 
 .welcome-container a.worldflagquiz:link, 
 .welcome-container a.worldflagquiz:visited {
-    background-color: goldenrod;
+    background-color: green;
     color: white;
 }

@@ -33,7 +33,11 @@ Three room based games were implemented:
   - Unconfirmed e-mail page. It is possible to resend the confirmation e-mail if expired or invalid
 - Games: Gothon | Riddle Master | World Flags Quiz
 - Ranking page
-    
+
+## Images
+
+- Images of this project may be found in the `screens` folder
+
 ## TODO
 
   - Games:

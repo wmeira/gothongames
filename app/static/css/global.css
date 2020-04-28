@@ -35,6 +35,10 @@ button {
     justify-content: space-between;
 }
 
+/* .nav-bar a:link {
+    text-decoration: none;
+} */
+
 .header {
     display: flex;
     height: 200px;
