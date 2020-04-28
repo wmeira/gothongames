@@ -8,6 +8,9 @@ class Room(object):
         *: path to an unexpected (or wrong) answer
         -: path after maximum number of errors
         string: path to given action string (must be exact)
+
+
+    The end room should be name "The End", "Game Over", "Quiz End" or "You died"
     """
 
     _stopwords = ['ourselves', 'hers', 'between', 'yourself', 'but', 'again', 'there', 
@@ -50,7 +53,7 @@ class Room(object):
     def split_action(self, action):
         if self.is_quiz():
             return [action]
-        words = [w.strip() for w in action.split() if w not in self._stopwords]
+        words = [w.strip().lower() for w in action.split() if w not in self._stopwords]
         return words
 
     def go(self, action):
@@ -120,9 +123,10 @@ class Game(object):
         return self.current_room, message 
 
     def is_game_over(self):
-        return self.current_room.name in ['death', 'The End']
+        # The end room should be name "The End", "Game Over", "Quiz End" or "You died"
+        return self.current_room.name in ['Game Over', 'The End', 'You died', 'Quiz End']
 
-    def calculate_score():
+    def calculated_score(self):
         return self.score
 
     def reset(self):
@@ -132,6 +136,15 @@ class Game(object):
 
     def load_current_room(self):
         return load_room(self.current_room)
+
+
+"""
+-----------------------------------------------------------------------------------
+ESCAPE GOTHON 
+
+Game example from "Learn Python 3 the Hard Way" (Zed Shaw)
+-----------------------------------------------------------------------------------
+"""
 
 class Gothon(Game):
     """ Gothon Game """
@@ -259,6 +272,12 @@ class Gothon(Game):
         return calculated_score
         
 
+"""
+-----------------------------------------------------------------------------------
+RIDDLE MASTER
+-----------------------------------------------------------------------------------
+"""
+
 class RiddleMaster(Game):
     """ Riddle Master Game """
 
@@ -325,15 +344,33 @@ class RiddleMaster(Game):
             return 0
         return calculated_score
 
+"""
+-----------------------------------------------------------------------------------
+WORLD FLAG QUIZ
+-----------------------------------------------------------------------------------
+"""
+
 class WorldFlagQuiz(Game):
     
+    the_end = Room("Quiz End", "<b style='font-size: 20px'>You completed the quiz!</b>")
+
+    brazil = Room("Flag", "Which country's flag is this?", img_file="brazil.png", room_type="quiz")
+    brazil.add_paths({
+        'Brazil': (the_end, 1),
+        'Argentina': (the_end, 0),
+        'Colombia': (the_end, 0),
+        'Chile': (the_end, 0)
+    })
+
     def __init__(self):
         super().__init__(
             name='worldflagquiz',
             show_name='World Flag Quiz',
             description='Fun with Flags!',
-            rooms=[],
-            start_room=None
+            rooms=[
+                self.brazil, 
+                self.the_end],
+            start_room=self.brazil
         )
 
 

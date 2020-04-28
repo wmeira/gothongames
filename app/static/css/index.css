@@ -22,20 +22,25 @@
     align-items: center;
 }
 
-.welcome-container a.gothon:link, .welcome-container a.gothon:visited {
+.welcome-container a.gothon:link, 
+.welcome-container a.gothon:visited {
     background-color: green;
     color: white;
 }
 
-.welcome-container a.gothon:hover, .welcome-container a.gothon:active {
+.welcome-container a:hover, 
+.welcome-container a:active {
     opacity: 0.8;
 }
 
-.welcome-container a.riddle-master:link, .welcome-container a.riddle-master:visited {
+.welcome-container a.riddlemaster:link, 
+.welcome-container a.riddlemaster:visited {
     background-color: black;
     color: white;
 }
 
-.welcome-container a.riddle-master:hover, .welcome-container a.riddle-master.gothon:active {
-    opacity: 0.8;
+.welcome-container a.worldflagquiz:link, 
+.welcome-container a.worldflagquiz:visited {
+    background-color: goldenrod;
+    color: white;
 }
