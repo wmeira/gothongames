@@ -1,7 +1,4 @@
-try:
-    from setuptools import setup
-except:
-    from distutils.core import setup
+from setuptools import setup
 
 config = {
     'description': 'Final exercise from "Learn Python 3 the Hard Way" (Zed Shaw)',
@@ -9,20 +6,30 @@ config = {
     'url': '',
     'version': '0.1',
     'install_requires': [
-        'flask', 
-        'flask-login', 
-        'flask-sqlalchemy', 
-        'flask-wtf', 
-        'flash-bcrypt',
+        'flask',
+        'flask-login',
+        'flask-sqlalchemy',
+        'flask-wtf',
+        'flask-bcrypt',
         'flask-moment',
         'flask-migrate',
-        'flask-scripts',
+        'flask-script',
         'flask-mail',
-        'git+https://github.com/rayluo/flask-session.git@0.3.x'
+        'flask-session'
     ],
-    'tests_require': [
-        'pytest'
+    'dependency_links': [
+        'git+https://github.com/rayluo/flask-session@0.3.x#egg=flask-session'
     ],
+    'extras_require': {
+        'dev': [
+            'pycodestyle',
+            'pylint'
+        ],
+        'test': [
+            'pytest',
+            'pytest-cov'
+        ],
+    },
     'packages': ['app'],
     'scripts': [],
     'name': 'gothonweb'

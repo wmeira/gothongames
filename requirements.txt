@@ -1,4 +1,5 @@
 alembic==1.4.2
+apipkg==1.5
 astroid==2.3.3
 atomicwrites==1.3.0
 attrs==19.3.0
@@ -8,6 +9,8 @@ blinker==1.4
 cffi==1.14.0
 click==7.1.1
 colorama==0.4.3
+coverage==5.1
+execnet==1.7.1
 flask==1.1.2
 Flask-Bcrypt==0.7.1
 Flask-Caching==1.8.0
@@ -19,7 +22,7 @@ Flask-Script==2.0.6
 Flask-Session==0.3.2
 Flask-SQLAlchemy==2.4.1
 Flask-WTF==0.14.3
-gothonweb==0.1
+-e git+https://github.com/wmeira/gothonweb.git@19f51762c017b3d2d7939804fe982d2f30ebb9b1#egg=gothonweb
 isort==4.3.21
 itsdangerous==1.1.0
 jinja2==3.0.0a1
@@ -36,6 +39,8 @@ pycparser==2.20
 pylint==2.4.4
 pyparsing==3.0.0a1
 pytest==5.4.1
+pytest-cache==1.0
+pytest-cov==2.8.1
 python-dateutil==2.8.1
 python-editor==1.0.4
 six==1.14.0
