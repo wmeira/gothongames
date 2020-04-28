@@ -2,4 +2,4 @@ from flask import Blueprint
 
 game = Blueprint('game', __name__)
 
-from . import forms, routes
+from . import forms, routes  # noqa

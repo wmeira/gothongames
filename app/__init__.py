@@ -9,7 +9,7 @@ from flask_mail import Mail
 from flask_session import Session
 from config import config
 
-# Mail 
+# Mail
 mail = Mail()
 
 # SQLAlchemy (ORM) configurations
@@ -32,6 +32,7 @@ moment = Moment()
 
 session = Session()
 
+
 def create_app(config_name='default'):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
@@ -53,5 +54,5 @@ def create_app(config_name='default'):
 
     from .game import game as game_blueprint
     app.register_blueprint(game_blueprint, url_prefix='/game')
-    
+
     return app

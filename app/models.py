@@ -5,7 +5,10 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from . import db, login_manager, bcrypt
 # from werkzeug.security import generate_password_hash, check_password_hash
 
-# UserMixin provides default implementations for the methods that Flask-Login expects user objects to have.
+# UserMixin provides default implementations for the methods that Flask-Login
+# expects user objects to have.
+
+
 class User(UserMixin, db.Model):
     __tablename__ = 'user'
 
@@ -22,7 +25,8 @@ class User(UserMixin, db.Model):
     @password.setter
     def password(self, password):
         # self.password_hash = generate_password_hash(password) #werkzeug
-        self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+        self.password_hash = bcrypt.generate_password_hash(
+            password).decode('utf-8')
 
     def verify_password(self, password):
         # return check_password_hash(self.password_hash, password) #werkzeug
@@ -36,7 +40,7 @@ class User(UserMixin, db.Model):
         s = Serializer(current_app.config['SECRET_KEY'])
         try:
             data = s.loads(token.encode('utf-8'))
-        except:
+        except BaseException:
             return False
         if data.get('confirm') != self.id:
             return False
@@ -45,7 +49,11 @@ class User(UserMixin, db.Model):
         return True
 
     def __repr__(self):
-        return f"User('{self.id}', '{self.username}', '{self.email}', {self.confirmed})"
+        return "User('{}', '{}', '{}', {})" .format(self.id,
+                                                    self.username,
+                                                    self.email,
+                                                    self.confirmed)
+
 
 class Ranking(db.Model):
     __tablename__ = 'ranking'
@@ -59,25 +67,31 @@ class Ranking(db.Model):
     user = db.relationship('User', backref=db.backref('rankings', lazy=True))
 
     @classmethod
-    def get_best_scores(cls, game, ntop): 
+    def get_best_scores(cls, game, ntop):
         """
         Get the n top best scores in a given game
 
         :param game name
         :param ntop is the n top best scores
         """
-        return Ranking.query.filter_by(game=game).order_by(Ranking.score.desc())[:ntop]
+        return (Ranking.query.filter_by(game=game)
+                             .order_by(Ranking.score.desc())[:ntop])
 
     @classmethod
-    def get_best_user_score(cls, user_id, game): 
+    def get_best_user_score(cls, user_id, game):
         """
         Get best score of a user in a given game.
         """
-        return Ranking.query.filter_by(game=game, user_id=user_id).order_by(Ranking.score.desc()).first()
+        return (Ranking.query.filter_by(game=game, user_id=user_id)
+                             .order_by(Ranking.score.desc())
+                             .first())
 
     def __repr__(self):
-        return f"Ranking('{self.id}', '{self.user_id}', '{self.game}', {self.score}, {self.ts})"
-
+        return "Ranking('{}', '{}', '{}', {}, {})".format(self.id,
+                                                          self.user_id,
+                                                          self.game,
+                                                          self.score,
+                                                          self.ts)
 
 
 @login_manager.user_loader

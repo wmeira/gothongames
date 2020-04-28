@@ -2,7 +2,7 @@
 
 Project with the purpose of learning Python and Flask framework. The project is inspired in the final exercise from "Learn Python 3 the Hard Way" (Zed Shaw) and in the exercises from "Flask Web Development: Developing Web Applications with Python" (Miguel Grinberg).
 
-Three room based games were implemented: 
+Three room based games were implemented:
   - Escape Gothon: simple storytelling webgame adapted from Zed Shaw's book (simple example)
   - Riddle Master: a riddle game
   - World Flag Quiz: country's flag quiz game
@@ -21,7 +21,8 @@ Three room based games were implemented:
 - Environments configuration (`development`, `testing`, and `production`)
 - Blueprints (`main`, `auth`, `game`) are being used.
 - Unitary tests using Pytest
-
+- PEP 8 check using `pycodestyle`
+- Coverage test using `pytest-cov`
 
 ## Features
 

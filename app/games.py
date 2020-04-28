@@ -1,5 +1,3 @@
-from flask import current_app
-
 class Room(object):
     """
     Room phase of a game
@@ -10,35 +8,41 @@ class Room(object):
         string: path to given action string (must be exact)
 
 
-    The end room should be name "The End", "Game Over", "Quiz End" or "You died"
+    The end room should be named as: "The End", "Game Over",
+    "Quiz End" or "You died"
     """
 
-    _stopwords = ['ourselves', 'hers', 'between', 'yourself', 'but', 'again', 'there', 
-                  'about', 'once', 'during', 'out', 'very', 'having', 'with', 'they', 
-                  'own', 'an', 'be', 'some', 'for', 'do', 'its', 'yours', 'such', 
-                  'into', 'of', 'most', 'itself', 'other', 'off', 'is', 's', 'am', 
-                  'or', 'who', 'as', 'from', 'him', 'each', 'the', 'themselves', 
-                  'until', 'below', 'are', 'we', 'these', 'your', 'his', 'through', 
-                  'don', 'nor', 'me', 'were', 'her', 'more', 'himself', 'this', 'down', 
-                  'should', 'our', 'their', 'while', 'above', 'both', 'up', 'to', 'ours', 
-                  'had', 'she', 'all', 'no', 'when', 'at', 'any', 'before', 'them', 'same', 
-                  'and', 'been', 'have', 'in', 'will', 'on', 'does', 'yourselves', 'then', 
-                  'that', 'because', 'what', 'over', 'why', 'so', 'can', 'did', 'not', 'now', 
-                  'under', 'he', 'you', 'herself', 'has', 'just', 'where', 'too', 'only', 
-                  'myself', 'which', 'those', 'i', 'after', 'few', 'whom', 't', 'being', 
-                  'if', 'theirs', 'my', 'against', 'a', 'by', 'doing', 'it', 'how', 
-                  'further', 'was', 'here', 'than']
+    _stopwords = ['ourselves', 'hers', 'between', 'yourself', 'but', 'again',
+                  'there', 'about', 'once', 'during', 'out', 'very', 'having',
+                  'with', 'they', 'own', 'an', 'be', 'some', 'for', 'do',
+                  'yours', 'such', 'into', 'of', 'most', 'itself', 'other',
+                  'off', 'is', 's', 'am', 'or', 'who', 'as', 'from', 'him',
+                  'each', 'the', 'themselves', 'until', 'below', 'are', 'we',
+                  'these', 'your', 'his', 'through', 'don', 'at', 'me', 'were',
+                  'her', 'more', 'himself', 'this', 'down', 'should', 'our',
+                  'their', 'while', 'above', 'both', 'up', 'to', 'ours', 'had',
+                  'she', 'all', 'no', 'when', 'nor', 'any', 'before', 'them',
+                  'same', 'and', 'been', 'have', 'now', 'will', 'on', 'does',
+                  'yourselves', 'then', 'that', 'because', 'what', 'over',
+                  'why', 'so', 'can', 'did', 'not', 'in', 'under', 'he', 'its',
+                  'you', 'herself', 'has', 'just', 'where', 'too', 'only',
+                  'myself', 'which', 'those', 'i', 'after', 'few', 'whom',
+                  't', 'being', 'if', 'theirs', 'my', 'against', 'a', 'by',
+                  'doing', 'it', 'how', 'further', 'was', 'here', 'than',
+                  ]
 
     # Possible answer outputs: sentences, output types
     # Types
 
-    def __init__(self, name, description, img_file=None, room_type="action", max_errors=10000):
+    def __init__(self, name, description,
+                 img_file=None, room_type="action", max_errors=10000):
         """
-        
+
         :param description describes the room to the player
         :param image_file allows an image to complement the description
-        :param room_type options are: 'action' (text input) and 'quiz' (multiple choices input).
-            When the room type is 'quiz', the paths are displayed as radio field options.
+        :param room_type options are: 'action' (text input) and 'quiz'
+            (multiple choices input). When the room type is 'quiz', the paths
+            are displayed as radio field options.
         """
         self.name = name
         self.description = description
@@ -49,11 +53,12 @@ class Room(object):
 
     def is_quiz(self):
         return self.room_type == 'quiz'
-                    
+
     def split_action(self, action):
         if self.is_quiz():
             return [action]
-        words = [w.strip().lower() for w in action.split() if w not in self._stopwords]
+        words = [w.strip().lower()
+                 for w in action.split() if w not in self._stopwords]
         return words
 
     def go(self, action):
@@ -61,8 +66,7 @@ class Room(object):
             return self, 0, 'Invalid action...'
 
         splited_action = self.split_action(action)
-        current_app.logger.debug(splited_action)
-        current_app.logger.debug(self.paths)
+
         for word in splited_action:
             if word in self.paths:
                 return *self.paths.get(action, None), None
@@ -81,13 +85,19 @@ class Room(object):
     def add_paths(self, paths):
         self.paths.update(paths)
 
+
 class Game(object):
     score = 0
     trials = 0
 
-    generic_end = Room("The End", "<b style='color:red; font-size: 20px'>You failed...</b>")
+    generic_end = Room("The End",
+                       """<b style='color:red; font-size: 20px'>
+                            You failed...
+                          </b>
+                        """)
 
-    def __init__(self, name, rooms, start_room, show_name=None, description=''):
+    def __init__(self, name, rooms, start_room,
+                 show_name=None, description=''):
         self.name = name
         if show_name is None:
             self.show_name = name
@@ -112,19 +122,21 @@ class Game(object):
             if value == room:
                 return key
         return None
-    
+
     def go(self, action):
         new_room, points, message = self.current_room.go(action)
         if new_room is None:
             self.current_room = self.generic_end
-        else: 
+        else:
             self.current_room = new_room
         self.score += points
-        return self.current_room, message 
+        return self.current_room, message
 
     def is_game_over(self):
-        # The end room should be name "The End", "Game Over", "Quiz End" or "You died"
-        return self.current_room.name in ['Game Over', 'The End', 'You died', 'Quiz End']
+        return self.current_room.name in ['Game Over',
+                                          'The End',
+                                          'You died',
+                                          'Quiz End']
 
     def calculated_score(self):
         return self.score
@@ -138,25 +150,23 @@ class Game(object):
         return load_room(self.current_room)
 
 
-"""
------------------------------------------------------------------------------------
-ESCAPE GOTHON 
-
-Game example from "Learn Python 3 the Hard Way" (Zed Shaw)
------------------------------------------------------------------------------------
-"""
-
 class Gothon(Game):
-    """ Gothon Game """
+    """
+    --------------------------------------------------------------------------
+    ESCAPE GOTHON
+
+    Game example from "Learn Python 3 the Hard Way" (Zed Shaw)
+    --------------------------------------------------------------------------
+    """
 
     central_corridor = Room("Central Corridor",
                             """
     The Gothons of Planet Percal #25 have invaded your ship and destroyed
-    your entire crew. You are the last surviving member and your last 
+    your entire crew. You are the last surviving member and your last
     mission is to get the neutron destruct bomb from the Weapons Armory, put
     it in the bridge, and blow the ship up after getting into an escape pod.
 
-    You're running down the central corridor to the Weapons Armory when a 
+    You're running down the central corridor to the Weapons Armory when a
     Gothon jumps out, red scaly skin, dark grimy teeth, and evil clown
     costume flowing around his hate filled body. He's blocking the door to
     the Armory and about to pull a weapon to blast you.
@@ -175,15 +185,16 @@ class Gothon(Game):
     more Gothons that might be hiding. It's dead quiet, too quiet. You
     stand up and run two the far side of the room and find the neutron bomb
     in its container. There's a keypad lock on the box and you need the
-    code to get the bomb out. If you get the code wrong <b>10 times</b> then the 
-    lock closes forever and you can't get the bomb. The code is <b>3 digits</b>
-    (interesting leads my be found in the description text, so look for numbers...)
+    code to get the bomb out. If you get the code wrong <b>10 times</b> then
+    the lock closes forever and you can't get the bomb. The code is <b>3
+    digits</b> (interesting leads my be found in the description text, so look
+    for numbers...)
     """, room_type='action', max_errors=10)
 
     the_bridge = Room("The Bridge",
                       """
-    The container clicks open and the seal breaks, letting gas out. You 
-    grab the neutron bomb and run as fast as you can to the bridge where 
+    The container clicks open and the seal breaks, letting gas out. You
+    grab the neutron bomb and run as fast as you can to the bridge where
     you must place it in the right spot.
 
     Your burst onto the Bridge with the neutron destruct bomb under your arm
@@ -215,12 +226,13 @@ class Gothon(Game):
     You jump into pod 2 and hit the eject button. The pod easily slides out
     into space heading to the planet below. As it flies to the planet, you
     look back and see your ship implode then explode like a bright star,
-    taking out the Gothon ship at the same time. <b>Congratulations, you won!</b>!
+    taking out the Gothon ship at the same time.
+    <b>Congratulations, you won!</b>!
     """)
 
     the_end_loser = Room("The End",
                          """
-    You jump into a random pod and hit the eject button. The pod escapes 
+    You jump into a random pod and hit the eject button. The pod escapes
     out into the void of space, then implodes as the hull ruptures, crushing
     your body into jam jelly.
     """)
@@ -260,7 +272,7 @@ class Gothon(Game):
                 self.the_end_loser,
             ],
             start_room=self.central_corridor)
-    
+
     def calculated_score(self):
         calculated_score = self.score
         if self.trials >= 15:
@@ -270,42 +282,44 @@ class Gothon(Game):
         if calculated_score < 0:
             return 0
         return calculated_score
-        
 
-"""
------------------------------------------------------------------------------------
-RIDDLE MASTER
------------------------------------------------------------------------------------
-"""
 
 class RiddleMaster(Game):
-    """ Riddle Master Game """
+    """
+    --------------------------------------------------------------------------
+    RIDDLE MASTER GAME
+    --------------------------------------------------------------------------
+    """
 
     easy_guys_go = Room("Easy Guys, Go!",
-                        "<b>What has to be broken before you can use it?</b>", 
-                        room_type="action", 
+                        "<b>What has to be broken before you can use it?</b>",
+                        room_type="action",
                         max_errors=10)
 
     son_name = Room("Son name",
-                    "<b>David’s parents have three sons: Snap, Crackle, and what’s the name of the third son?</b>",
-                    room_type="action", 
+                    """<b>David’s parents have three sons: Snap, Crackle, and
+                        what’s the name of the third son?</b>""",
+                    room_type="action",
                     max_errors=10)
 
     car_people = Room("How tight is this car... hmmpf",
                       """
-                      One grandfather, two fathers, two sons, and one grandson enter in a car. 
-                      How many people are in the car?
+                      One grandfather, two fathers, two sons, and one grandson
+                      enter in a car. How many people are in the car?
                       """,
-                      room_type="action", 
+                      room_type="action",
                       max_errors=10)
 
     the_end_winner = Room("The End",
-                          """Congratulations! You are a riddle master after all!""")
+                          """Congratulations!
+                             You are a riddle master after all!
+                          """)
 
     the_end_loser = Room("The End",
                          """
-                         Unfortunately, you are not a riddle master. Come later, after you have 
-                         rested in that furniture that has one head, one foot and four legs...
+                         Unfortunately, you are not a riddle master.
+                         Come later, after you have rested in that furniture
+                         that has one head, one foot and four legs...
                          """)
 
     easy_guys_go.add_paths({
@@ -330,10 +344,10 @@ class RiddleMaster(Game):
             show_name='Riddle Master',
             description='What have I got in my pocket?! (Baggins, Bilbo)',
             rooms=[
-                self.easy_guys_go, 
-                self.son_name, 
+                self.easy_guys_go,
+                self.son_name,
                 self.car_people,
-                self.the_end_winner, 
+                self.the_end_winner,
                 self.the_end_loser,
             ],
             start_room=self.easy_guys_go)
@@ -344,19 +358,22 @@ class RiddleMaster(Game):
             return 0
         return calculated_score
 
-"""
------------------------------------------------------------------------------------
-WORLD FLAG QUIZ
------------------------------------------------------------------------------------
-"""
 
 class WorldFlagQuiz(Game):
-    
-    the_end = Room("Quiz End", "<b style='font-size: 20px'>You completed the quiz!</b>")
+    """
+    --------------------------------------------------------------------------
+    WORLD FLAG QUIZ
+    --------------------------------------------------------------------------
+    """
 
-    brazil = Room("Flag", 
-                  "Which country's flag is this?", 
-                  img_file="572e78d8f5048a3b0fadc971e2eeab02b421f16158bbb4e24784c5c2e3f7424a.png", 
+    the_end = Room("Quiz End",
+                   """<b style='font-size: 20px'>"
+                        You completed the quiz!</b>
+                   """)
+
+    brazil = Room("Flag",
+                  "Which country's flag is this?",
+                  img_file="12cb30ba94032221ae9c864bed322b58.png",
                   room_type="quiz")
     brazil.add_paths({
         'Brazil': (the_end, 1),
@@ -365,15 +382,13 @@ class WorldFlagQuiz(Game):
         'Chile': (the_end, 0)
     })
 
-    
-
     def __init__(self):
         super().__init__(
             name='worldflagquiz',
             show_name='World Flag Quiz',
             description='Fun with Flags!',
             rooms=[
-                self.brazil, 
+                self.brazil,
                 self.the_end],
             start_room=self.brazil
         )

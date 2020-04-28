@@ -1,12 +1,15 @@
 import os
-import datetime 
+import datetime
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+
 class Config:
-    SECRET_KEY = os.environ.get('GW_SECRET_KEY') or 'gy9Vl5K2OW6igD--7SyzdYhH-rIgO-mVmLBB7PvbtCA'
+
+    SECRET_KEY = os.environ.get('GW_SECRET_KEY') \
+                    or 'gy9Vl5K2OW6igD--7SyzdYhH-rIgO-mVmLBB7PvbtCA'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    REMEMBER_COOKIE_DURATION = datetime.timedelta(days=7) #default 1 year
+    REMEMBER_COOKIE_DURATION = datetime.timedelta(days=7)  # default 1 year
 
     MAIL_SERVER = os.environ.get('GW_MAIL_SERVER', 'smtp.googlemail.com')
     MAIL_PORT = int(os.environ.get('GW_MAIL_PORT', '587'))
@@ -25,13 +28,16 @@ class Config:
     def init_app(app):
         pass
 
+
 class DevelopmentConfig(Config):
+
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('GW_DEV_DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'gothon.sqlite')
 
 
 class TestingConfig(Config):
+
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('GW_TEST_DATABASE_URL') or \
         'sqlite://'
@@ -46,7 +52,5 @@ config = {
     'development': DevelopmentConfig,
     'testing': TestingConfig,
     'production': ProductionConfig,
-
     'default': DevelopmentConfig
 }
-
