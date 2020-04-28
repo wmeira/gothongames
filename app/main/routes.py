@@ -13,15 +13,15 @@ def home():
 def ranking():
     global_ranking = {}
     user_ranking = {}
-    for game in available_games.keys(): 
-        best_five_scores = Ranking.get_best_scores(game, 5)
-        
+    for game in available_games.values(): 
+        game = game()
+        best_five_scores = Ranking.get_best_scores(game.name, 5)
         if current_user.is_authenticated:
-            best_user_score = Ranking.get_best_user_score(current_user.id, game)
-            user_ranking[game] = best_user_score
+            best_user_score = Ranking.get_best_user_score(current_user.id, game.name)
+            user_ranking[game.show_name] = best_user_score
             # current_app.logger.debug(best_user_score)
         else:
-            user_ranking[game] = None
-        global_ranking[game] = best_five_scores
+            user_ranking[game.show_name] = None
+        global_ranking[game.show_name] = best_five_scores
         # current_app.logger.debug(best_five_scores)
     return render_template("ranking.html", global_ranking=global_ranking, user_ranking=user_ranking)

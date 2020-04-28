@@ -26,7 +26,7 @@
                     <tr {% if current_user.is_authenticated and r.user_id == current_user.username  %}style="font-weight:bold"{% endif%}>
                         <td>{{ loop.index }}</td>
                         <td>{{ r.user.username|capitalize }}</td>
-                        <td>{{ moment(r.ts).format('L') }}{{ moment(r.ts).format('LTS') }}</td>
+                        <td>{{ moment(r.ts).format('L') }}&nbsp{{ moment(r.ts).format('LTS') }}</td>
                         <td>{{ r.score }}</td>
                     </tr>
                 {% endfor %}
@@ -42,4 +42,5 @@
 {{ super() }}
 {{ moment.include_jquery() }}
 {{ moment.include_moment() }}
+{{ moment.locale(auto_detect=True) }}
 {% endblock %}
