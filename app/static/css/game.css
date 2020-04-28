@@ -77,3 +77,10 @@
     color: grey
     /* font-family: 'Courier New', Courier, monospace; */
 }
+
+
+.game-container .room-image {
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+}

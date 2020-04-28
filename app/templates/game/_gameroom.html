@@ -9,7 +9,7 @@
     </p>
 
     {% if game.current_room.img_file %}
-    <img src="{{ url_for('static', filename='img/{game.name}/{game.current_room.img_file}') }}">
+    <img class="room-image" src="{{ url_for('static', filename='/img/{}/{}'.format(game.name, game.current_room.img_file)) }}">
     {% endif %}
 
 </div>
