@@ -1,13 +1,15 @@
-<h1>{{ game.show_name }}</h1>
-<p style="font-size: small; text-align: end; margin-top: 10px;color: gray"><i>{{ game.description }}</i></p>
+<div class="game-room">
+    <h1>{{ game.show_name }}</h1>
+    <p class="game-description"><i>{{ game.description }}</i></p>
 
-<h3 style="margin-top: 40px;">{{ game.current_room.name }}</h3>
+    <h3 style="margin-top: 40px;">{{ game.current_room.name }}</h3>
 
-<p class=room-description>
-    {{ game.current_room.description|safe }}
-</p>
+    <p class="room-description">
+        {{ game.current_room.description|safe }}
+    </p>
 
-{% if game.current_room.img_file %}
+    {% if game.current_room.img_file %}
     <img src="{{ url_for('static', filename='img/{game.name}/{game.current_room.img_file}') }}">
-{% endif %}
+    {% endif %}
 
+</div>

@@ -6,12 +6,25 @@
     margin: 0 auto;
     justify-content: space-between;   
 }
+
+.game-container p.game-description {
+    font-size: small; 
+    text-align: end; 
+    margin-top: 10px;
+    color: gray;   
+    line-height: 15px;
+}
+
 .game-container p.room-description {
     margin-top: 20px;
     margin-bottom: 20px;
     text-align: justify; 
     font-size: 15px;
     font-family: 'Courier New', Courier, monospace;
+}
+
+.game-container form {
+    margin-top: 20px;
 }
 
 .game-container .form-group {
@@ -55,4 +68,12 @@
     display: flex; 
     justify-content: space-between;
     margin-top: 40px; 
+}
+
+.game-container .room-chances {
+    font-size: 8px; 
+    margin-top: 5px; 
+    margin-left: 1px;
+    color: grey
+    /* font-family: 'Courier New', Courier, monospace; */
 }

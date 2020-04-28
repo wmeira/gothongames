@@ -20,11 +20,20 @@
             {{ form.submit(class_='submit') }}
         {% else %}
             <div class="form-group">
-                {{ form.action(class_='action') }}
+                {{ form.action(class_='action', autofocus=True) }}
                 {{ form.submit(class_='submit') }}
             </div>
         {% endif %}    
     </form>
+    {% if not game.current_room.is_quiz() and game.current_room.max_errors <= 20 %}
+    <p class="room-chances">Remaining chances: 
+        {% if game.current_room.max_errors <= 3 %}
+        <b style="color: red;">{{ game.current_room.max_errors }}</b>
+        {% else %}
+        <b>{{ game.current_room.max_errors }}</b>
+        {% endif %}
+    </p>
+    {% endif %}
 </div>
 
 {% endblock %}

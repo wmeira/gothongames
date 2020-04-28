@@ -68,7 +68,7 @@ class Room(object):
                 return *self.paths.get('*', None), 'You got it wrong...'
             elif self.max_errors <= 1:
                 if self.paths.get('-'):
-                    return *self.paths['-'], 'You got it wrong...'
+                    return *self.paths['-'], 'You failed (trials limit)...'
                 else:
                     return None, 0, 'You failed (trials limit)...'
             else:
@@ -82,7 +82,7 @@ class Game(object):
     score = 0
     trials = 0
 
-    generic_end = Room("The End", "You failed.")
+    generic_end = Room("The End", "<b style='color:red; font-size: 20px'>You failed...</b>")
 
     def __init__(self, name, rooms, start_room, show_name=None, description=''):
         self.name = name
@@ -123,7 +123,7 @@ class Game(object):
         return self.current_room.name in ['death', 'The End']
 
     def calculate_score():
-        raise NotImplementedError()
+        return self.score
 
     def reset(self):
         self.current_room = self.start_room
@@ -263,45 +263,53 @@ class RiddleMaster(Game):
     """ Riddle Master Game """
 
     easy_guys_go = Room("Easy Guys, Go!",
-                        "What has to be broken before you can use it?")
+                        "<b>What has to be broken before you can use it?</b>", 
+                        room_type="action", 
+                        max_errors=10)
 
     son_name = Room("Son name",
-                    "David’s parents have three sons: Snap, Crackle, and what’s the name of the third son?")
+                    "<b>David’s parents have three sons: Snap, Crackle, and what’s the name of the third son?</b>",
+                    room_type="action", 
+                    max_errors=10)
 
     car_people = Room("How tight is this car... hmmpf",
-                      "One grandfather, two fathers, two sons, and one grandson enter in a car. How many people are in the car?")
+                      """
+                      One grandfather, two fathers, two sons, and one grandson enter in a car. 
+                      How many people are in the car?
+                      """,
+                      room_type="action", 
+                      max_errors=10)
 
     the_end_winner = Room("The End",
-                          """
-    Congratulations! You are a riddle master after all!
-    """)
+                          """Congratulations! You are a riddle master after all!""")
 
     the_end_loser = Room("The End",
                          """
-    Unfortunately, you are not a riddle master. Come later after you rest in that furniture that has one head, one foot and four legs...
-    """)
+                         Unfortunately, you are not a riddle master. Come later, after you have 
+                         rested in that furniture that has one head, one foot and four legs...
+                         """)
 
     easy_guys_go.add_paths({
-        'egg': (son_name, 10),
-        '*': (the_end_loser, 0),
+        'egg': (son_name, 100),
+        '-': (the_end_loser, 0),
     })
 
     son_name.add_paths({
-        'david': (car_people, 10),
-        '*': the_end_loser,
+        'david': (car_people, 100),
+        '-': (the_end_loser, 0),
     })
 
     car_people.add_paths({
-        '3': the_end_winner,
-        'three': the_end_winner,
-        '*': the_end_loser,
+        '3': (the_end_winner, 100),
+        'three': (the_end_winner, 100),
+        '-': (the_end_loser, 0),
     })
 
     def __init__(self):
         super().__init__(
-            name='riddle',
+            name='riddlemaster',
             show_name='Riddle Master',
-            description='What have I got in my pocket?! (Bagins, Bilbo)',
+            description='What have I got in my pocket?! (Baggins, Bilbo)',
             rooms=[
                 self.easy_guys_go, 
                 self.son_name, 
@@ -310,6 +318,12 @@ class RiddleMaster(Game):
                 self.the_end_loser,
             ],
             start_room=self.easy_guys_go)
+
+    def calculated_score(self):
+        calculated_score = self.score - self.trials
+        if calculated_score < 0:
+            return 0
+        return calculated_score
 
 class WorldFlagQuiz(Game):
     
