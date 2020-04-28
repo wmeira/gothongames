@@ -1,8 +1,11 @@
-# Gothon Web
+# Gothon Starship Games
 
-Final exercise from "Learn Python 3 the Hard Way" (Zed Shaw).
+Project with the purpose of learning Python and Flask framework. The project is inspired in the final exercise from "Learn Python 3 the Hard Way" (Zed Shaw) and in the exercises from "Flask Web Development: Developing Web Applications with Python" (Miguel Grinberg).
 
-Simple storytelling webgame with the purpose of learning Python and Flask framework.
+Three room based games were implemented: 
+  - Escape Gothon: simple storytelling webgame adapted from Zed Shaw's book (simple example)
+  - Riddle Master: a riddle game
+  - World Flag Quiz: country's flag quiz game
 
 
 ## Flask Technologies
@@ -27,20 +30,17 @@ Simple storytelling webgame with the purpose of learning Python and Flask framew
   - Login page
   - Signup page
   - Confirmation e-mail. Tokens are generated using JSON Web Signature from `itsdangerous`
-  - Unconfirmed e-mail page. It is allowed to resend confirmation e-mail if expired or invalid
-
+  - Unconfirmed e-mail page. It is possible to resend the confirmation e-mail if expired or invalid
 - Games: Gothon | Riddle Master | World Flags Quiz
-- Login
-- Signup
-- Ranking
+- Ranking page
     
 ## TODO
 
-  - Melhorar aparência HTML  
-  - Sistema de ajuda  
-  - Sistema de pontuação
-  - Jogos: 
-    - Melhorar GothonWeb
-    - Criar Riddle Master
-    - Criar World Flags Quiz
-  - Aumentar a cobertura dos testes automatizados
+  - Games:
+    - Create more rooms for "Riddle Master"
+    - Create more rooms for "World Flags Quiz"
+  - User:
+    - Recover password system
+    - Avatar image using Gravatar API
+    - Profile page: update avatar image and change password
+  - Increase the coverage of automation tests
