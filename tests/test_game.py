@@ -1,5 +1,6 @@
 from app.games import *
 
+
 def test_room():
     gold = Room("GoldRoom",
                 """This room has gold in it you can grab. There's a door to the north.""")
@@ -16,6 +17,7 @@ def test_room_paths():
     assert center.go('north')[0] == north
     assert center.go('south')[0] == south
 
+
 def test_map():
     start = Room('Start', 'You can go west and down a hole.')
     west = Room('Trees', 'There are trees here, you can go east')
@@ -28,6 +30,7 @@ def test_map():
     assert start.go('west')[0] == west
     assert start.go('west')[0].go('east')[0] == start
     assert start.go('down')[0].go('up')[0] == start
+
 
 def test_gothon_game_map():
     game = available_games['gothon']()
