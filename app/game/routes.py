@@ -52,7 +52,8 @@ def play(name):
 
         # next room
         if new_room != current_room:
-            flash("You passed!", "success")
+            if not current_room.is_quiz():
+                flash("You passed!", "success")
         else:
             game.trials += 1  # same room, new trial
         session['game'] = pickle.dumps(game)

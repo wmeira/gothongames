@@ -365,21 +365,263 @@ class WorldFlagQuiz(Game):
     WORLD FLAG QUIZ
     --------------------------------------------------------------------------
     """
+    total_flags = 21
 
     the_end = Room("Quiz End",
-                   """<b style='font-size: 20px'>"
+                   """<b style='font-size: 20px'>
                         You completed the quiz!</b>
                    """)
 
-    brazil = Room("Flag",
+    brazil = Room(f"Flag 1 of {total_flags}",
                   "Which country's flag is this?",
-                  img_file="12cb30ba94032221ae9c864bed322b58.png",
+                  img_file="01_12cb30ba94032221ae9c864bed322b58.png",
                   room_type="quiz")
+
+    germany = Room(f"Flag 2 of {total_flags}",
+                   "Which country's flag is this?",
+                   img_file="02_410c74697cce4eefdcc0e65e1308eb91.png",
+                   room_type="quiz")
+
+    portugal = Room(f"Flag 3 of {total_flags}",
+                    "Which country's flag is this?",
+                    img_file="03_b42fc57358603c783f76de7ee4cffa69.png",
+                    room_type="quiz")
+
+    south_korea = Room(f"Flag 4 of {total_flags}",
+                       "Which country's flag is this?",
+                       img_file="04_850bdc496f33175f58fff453d0e2c15f.png",
+                       room_type="quiz")
+
+    france = Room(f"Flag 5 of {total_flags}",
+                  "Which country's flag is this?",
+                  img_file="05_6120138f01dc6a289b10f61fbe811047.png",
+                  room_type="quiz")
+
+    england = Room(f"Flag 6 of {total_flags}",
+                   "Which country's flag is this?",
+                   img_file="06_ed28d15adf40423b9a367b1340485251.png",
+                   room_type="quiz")
+
+    uruguay = Room(f"Flag 7 of {total_flags}",
+                   "Which country's flag is this?",
+                   img_file="07_a5ae5ce08ed702ff837901c8540c05f0.png",
+                   room_type="quiz")
+
+    finland = Room(f"Flag 8 of {total_flags}",
+                   "Which country's flag is this?",
+                   img_file="08_e33a1b32a19a24d0155dab427a6a32e5.png",
+                   room_type="quiz")
+
+    cuba = Room(f"Flag 9 of {total_flags}",
+                "Which country's flag is this?",
+                img_file="09_3b68daaf3dd9efbde28fffd7f795cb2d.png",
+                room_type="quiz")
+
+    south_africa = Room(f"Flag 10 of {total_flags}",
+                        "Which country's flag is this?",
+                        img_file="10_ebf1636363a169eff9fa4eadaa6235e4.png",
+                        room_type="quiz")
+
+    jamaica = Room(f"Flag 11 of {total_flags}",
+                   "Which country's flag is this?",
+                   img_file="11_255e5ea53c42e41a88fd0e390c3afb50.png",
+                   room_type="quiz")
+
+    austria = Room(f"Flag 12 of {total_flags}",
+                   "Which country's flag is this?",
+                   img_file="12_a9fe0c7db98f5d4fc4094243d310028f.png",
+                   room_type="quiz")
+
+    tunisia = Room(f"Flag 13 of {total_flags}",
+                   "Which country's flag is this?",
+                   img_file="13_14f8dafbb33b782d27421556052b5211.png",
+                   room_type="quiz")
+
+    croatia = Room(f"Flag 14 of {total_flags}",
+                   "Which country's flag is this?",
+                   img_file="14_eaac050115db0a727892464506818ca0.png",
+                   room_type="quiz")
+
+    egypt = Room(f"Flag 15 of {total_flags}",
+                 "Which country's flag is this?",
+                 img_file="15_0e16f48fe68f60dfc7f7434c11053f7b.png",
+                 room_type="quiz")
+
+    wales = Room(f"Flag 16 of {total_flags}",
+                 "Which country's flag is this?",
+                 img_file="16_d165fd066a81e6090559429e88fa6b27.png",
+                 room_type="quiz")
+
+    angola = Room(f"Flag 17 of {total_flags}",
+                  "Which country's flag is this?",
+                  img_file="17_172a1b1673fe23115060e5e8cf791ec0.png",
+                  room_type="quiz")
+
+    iran = Room(f"Flag 18 of {total_flags}",
+                "Which country's flag is this?",
+                img_file="18_0e16f48fe68f60dfc7f7434c11053f7b.png",
+                room_type="quiz")
+
+    nepal = Room(f"Flag 19 of {total_flags}",
+                 "Which country's flag is this?",
+                 img_file="19_da5cef462e9167aea5e3fefbea205123.png",
+                 room_type="quiz")
+
+    bangladesh = Room(f"Flag 20 of {total_flags}",
+                      "Which country's flag is this?",
+                      img_file="20_9830c8910dddee0967cf4280c30efd69.png",
+                      room_type="quiz")
+
+    qatar = Room(f"Flag 21 of {total_flags}",
+                 "Which country's flag is this?",
+                 img_file="21_83882b9be88c540181f317e3a2a6c599.png",
+                 room_type="quiz")
+
     brazil.add_paths({
-        'Brazil': (the_end, 1),
-        'Argentina': (the_end, 0),
-        'Colombia': (the_end, 0),
-        'Chile': (the_end, 0)
+        'Brazil': (germany, 1),
+        'Argentina': (germany, 0),
+        'Colombia': (germany, 0),
+        'Chile': (germany, 0)
+    })
+
+    germany.add_paths({
+        'Belgium': (portugal, 0),
+        'Germany': (portugal, 1),
+        'France': (portugal, 0),
+        'Irland': (portugal, 0)
+    })
+
+    portugal.add_paths({
+        'Spain': (south_korea, 0),
+        'Japan': (south_korea, 0),
+        'Guatemala': (south_korea, 0),
+        'Portugal': (south_korea, 1)
+    })
+
+    south_korea.add_paths({
+        'Vietnam': (france, 0),
+        'Japan': (france, 0),
+        'China': (france, 0),
+        'South Korea': (france, 1)
+    })
+
+    france.add_paths({
+        'Germany': (england, 0),
+        'France': (england, 1),
+        'Netherlands': (england, 0),
+        'Paraguay': (england, 0)
+    })
+
+    england.add_paths({
+        'Norway': (uruguay, 0),
+        'Austria': (uruguay, 0),
+        'Denmark': (uruguay, 0),
+        'England': (uruguay, 1)
+    })
+
+    uruguay.add_paths({
+        'Uruguay': (finland, 1),
+        'Argentina': (finland, 0),
+        'Greece': (finland, 0),
+        'Paraguay': (finland, 0)
+    })
+
+    finland.add_paths({
+        'Norway': (cuba, 0),
+        'Argentina': (cuba, 0),
+        'Finland': (cuba, 1),
+        'Sweden': (cuba, 0)
+    })
+
+    cuba.add_paths({
+        'Panama': (south_africa, 0),
+        'Cuba': (south_africa, 1),
+        'Guatemala': (south_africa, 0),
+        'Pakistan': (south_africa, 0)
+    })
+
+    south_africa.add_paths({
+        'South Africa': (jamaica, 1),
+        'Lesoto': (jamaica, 0),
+        'Angola': (jamaica, 0),
+        'Uganda': (jamaica, 0)
+    })
+
+    jamaica.add_paths({
+        'South Africa': (austria, 0),
+        'Marrocos': (austria, 0),
+        'Panama': (austria, 0),
+        'Jamaica': (austria, 1)
+    })
+
+    austria.add_paths({
+        'Poland': (tunisia, 0),
+        'Lebanon': (tunisia, 0),
+        'Denmark': (tunisia, 0),
+        'Austria': (tunisia, 1)
+    })
+
+    tunisia.add_paths({
+        'Tunisia': (croatia, 1),
+        'Turkey': (croatia, 0),
+        'Switzerland': (croatia, 0),
+        'Marrocos': (croatia, 0)
+    })
+
+    croatia.add_paths({
+        'Slovakia': (egypt, 0),
+        'Czechia': (egypt, 0),
+        'Croatia': (egypt, 1),
+        'Slovenia': (egypt, 0)
+    })
+
+    egypt.add_paths({
+        'Yemen': (wales, 0),
+        'Syria': (wales, 0),
+        'Egypt': (wales, 1),
+        'Iraq': (wales, 0)
+    })
+
+    wales.add_paths({
+        'Bhutan': (angola, 0),
+        'Wales': (angola, 1),
+        'Iran': (angola, 0),
+        'Nepal': (angola, 0)
+    })
+
+    angola.add_paths({
+        'Angola': (iran, 1),
+        'Uganda': (iran, 0),
+        'Kenya': (iran, 0),
+        'Zimbabwe': (iran, 0)
+    })
+
+    iran.add_paths({
+        'India': (nepal, 0),
+        'Tajikistan': (nepal, 0),
+        'Iran': (nepal, 1),
+        'Kazakhstan': (nepal, 0)
+    })
+
+    nepal.add_paths({
+        'Thailand': (bangladesh, 0),
+        'Sri Lanka': (bangladesh, 0),
+        'Wales': (bangladesh, 0),
+        'Nepal': (bangladesh, 1)
+    })
+
+    bangladesh.add_paths({
+        'Pakistan': (qatar, 0),
+        'Bangladesh': (qatar, 1),
+        'Philippines': (qatar, 0),
+        'Myanmar': (qatar, 0)
+    })
+
+    qatar.add_paths({
+        'United Arab Emirates': (the_end, 0),
+        'Bahrain': (the_end, 0),
+        'Qatar': (the_end, 1),
+        'Kuwait': (the_end, 0)
     })
 
     def __init__(self):
@@ -389,6 +631,26 @@ class WorldFlagQuiz(Game):
             description='Fun with Flags!',
             rooms=[
                 self.brazil,
+                self.germany,
+                self.portugal,
+                self.south_korea,
+                self.france,
+                self.england,
+                self.uruguay,
+                self.finland,
+                self.cuba,
+                self.south_africa,
+                self.jamaica,
+                self.austria,
+                self.tunisia,
+                self.croatia,
+                self.egypt,
+                self.wales,
+                self.angola,
+                self.iran,
+                self.nepal,
+                self.bangladesh,
+                self.qatar,
                 self.the_end],
             start_room=self.brazil
         )
