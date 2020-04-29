@@ -41,8 +41,6 @@ Three room based games were implemented:
 
 ## TODO
 
-  - Games:
-    - Create more rooms for "Riddle Master" game
   - User:
     - Recover password system
     - Avatar image using Gravatar API

@@ -310,6 +310,16 @@ class RiddleMaster(Game):
                       room_type="action",
                       max_errors=10)
 
+    silence = Room("...",
+                   "What is so fragile that saying its name breaks it?",
+                   room_type="action",
+                   max_errors=10)
+
+    light = Room("Time and Space",
+                 "What can fill a room but takes up no space?",
+                 room_type="action",
+                 max_errors=10)
+
     the_end_winner = Room("The End",
                           """Congratulations!
                              You are a riddle master after all!
@@ -333,8 +343,18 @@ class RiddleMaster(Game):
     })
 
     car_people.add_paths({
-        '3': (the_end_winner, 100),
-        'three': (the_end_winner, 100),
+        '3': (silence, 100),
+        'three': (silence, 100),
+        '-': (the_end_loser, 0),
+    })
+
+    silence.add_paths({
+        'silence': (light, 100),
+        '-': (the_end_loser, 0),
+    })
+
+    light.add_paths({
+        'light': (the_end_winner, 100),
         '-': (the_end_loser, 0),
     })
 
@@ -347,6 +367,7 @@ class RiddleMaster(Game):
                 self.easy_guys_go,
                 self.son_name,
                 self.car_people,
+                self.silence,
                 self.the_end_winner,
                 self.the_end_loser,
             ],
