@@ -27,7 +27,7 @@ isort==4.3.21
 itsdangerous==1.1.0
 jinja2==3.0.0a1
 lazy-object-proxy==1.4.3
-Mako==1.1.2
+Mako==1.2.2
 markupsafe==2.0.0a1
 mccabe==0.6.1
 more-itertools==8.2.0
